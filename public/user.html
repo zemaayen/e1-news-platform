@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E1 - Ethiopia News Website</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e30613'/%3E%3Ctext x='100' y='140' font-family='Times New Roman,serif' font-size='120' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-5'%3EE1%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div style="display: flex; gap: 20px; align-items: center; width: 100%; justify-content: space-between;">
+                <span class="live-badge">👤 USER</span>
+                <div id="userInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>👤 My Profile</h1>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <a href="/" class="btn btn-secondary">View Site</a>
+                <button onclick="logout()" class="btn btn-danger">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <h2 class="mb-20">Welcome, <span id="usernameDisplay"></span>!</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="table-container">
+                    <h3>Profile Information</h3>
+                    <table style="margin-top: 20px;">
+                        <tr>
+                            <th style="width: 200px;">Username</th>
+                            <td id="profileUsername"></td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td id="profileEmail"></td>
+                        </tr>
+                        <tr>
+                            <th>Role</th>
+                            <td><span style="background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 6px;">User</span></td>
+                        </tr>
+                        <tr>
+                            <th>Member Since</th>
+                            <td id="profileCreated"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="table-container" style="margin-top: 30px;">
+                    <h3>My Comments</h3>
+                    <p style="color: #666; margin: 10px 0;">You can post comments on any article. Your comments will appear below.</p>
+                    <div id="commentsContainer" style="margin-top: 20px;"></div>
+                </div>
+
+                <div class="table-container" style="margin-top: 30px;">
+                    <h3>How to Use</h3>
+                    <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                            <strong>📰 Read Articles:</strong> Browse and read all published articles on the homepage
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                            <strong>💬 Post Comments:</strong> Share your thoughts and opinions on any article
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                            <strong>🔔 Stay Updated:</strong> Get the latest breaking news and updates
+                        </li>
+                        <li style="padding: 10px 0;">
+                            <strong>📊 Track Activity:</strong> View all your comments in one place
+                        </li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="/" class="btn btn-primary">Browse Latest Articles</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/me', { credentials: 'include' });
+                if (!response.ok) {
+                    window.location.href = '/login';
+                    return;
+                }
+                const data = await response.json();
+                currentUser = data.user;
+                
+                document.getElementById('userInfo').innerHTML = `<span>Welcome, ${currentUser.username}</span>`;
+                document.getElementById('usernameDisplay').textContent = currentUser.username;
+                document.getElementById('profileUsername').textContent = currentUser.username;
+                document.getElementById('profileEmail').textContent = currentUser.email;
+                document.getElementById('profileCreated').textContent = new Date(currentUser.createdAt).toLocaleDateString();
+                
+                loadUserComments();
+            } catch (error) {
+                window.location.href = '/login';
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+            window.location.href = '/';
+        }
+
+        async function loadUserComments() {
+            try {
+                // Get all articles to find comments by this user
+                const articlesResponse = await fetch('/api/articles');
+                const articlesData = await articlesResponse.json();
+                
+                let userComments = [];
+                
+                for (const article of articlesData.articles) {
+                    const commentsResponse = await fetch(`/api/articles/${article.id}/comments`);
+                    const commentsData = await commentsResponse.json();
+                    
+                    const myComments = commentsData.comments.filter(c => c.userId === currentUser.id);
+                    myComments.forEach(comment => {
+                        comment.articleTitle = article.title;
+                        comment.articleId = article.id;
+                    });
+                    
+                    userComments.push(...myComments);
+                }
+                
+                displayComments(userComments);
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        function displayComments(comments) {
+            const container = document.getElementById('commentsContainer');
+            
+            if (comments.length === 0) {
+                container.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">You haven\'t posted any comments yet. <a href="/" style="color: var(--primary-color);">Browse articles</a> and join the conversation!</p>';
+                return;
+            }
+
+            container.innerHTML = comments.map(comment => `
+                <div class="comment">
+                    <div class="comment-header">
+                        <div>
+                            <strong style="color: var(--text-dark);">On Article:</strong> 
+                            <a href="/article/${comment.articleId}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">${comment.articleTitle}</a>
+                        </div>
+                        <span class="comment-time">${new Date(comment.createdAt).toLocaleString()}</span>
+                    </div>
+                    <p style="margin-top: 10px;">${comment.content}</p>
+                    <button onclick="viewArticle(${comment.articleId})" class="btn btn-secondary" style="padding: 5px 15px; font-size: 12px; margin-top: 10px;">View Article</button>
+                </div>
+            `).join('');
+        }
+
+        function viewArticle(id) {
+            window.location.href = `/article/${id}`;
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>
+

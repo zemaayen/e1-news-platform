@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E1 - Ethiopia News Website</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e30613'/%3E%3Ctext x='100' y='140' font-family='Times New Roman,serif' font-size='120' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-5'%3EE1%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div style="display: flex; gap: 20px; align-items: center; width: 100%; justify-content: space-between;">
+                <span class="live-badge">🔴 SUPER ADMIN</span>
+                <div id="userInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>🛡️ Super Admin Dashboard</h1>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <a href="/" class="btn btn-secondary">View Site</a>
+                <button onclick="logout()" class="btn btn-danger">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <div class="number" id="totalUsers">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Articles</h3>
+                    <div class="number" id="totalArticles">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Published Articles</h3>
+                    <div class="number" id="publishedArticles">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Views</h3>
+                    <div class="number" id="totalViews">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Comments</h3>
+                    <div class="number" id="totalComments">0</div>
+                </div>
+            </div>
+
+        <!-- Live Updates / Chat Section -->
+        <div class="chat-post-section">
+            <h3>🔥 Post Live Update</h3>
+            <div class="chat-post-form">
+                <textarea id="chatMessageInput" placeholder="Type your live update here... (e.g., Breaking news, live coverage, quick updates)" rows="3" maxlength="500"></textarea>
+                
+                <!-- Media Upload Section -->
+                <div class="chat-media-upload">
+                    <label style="font-weight: 600; margin-bottom: 10px; display: block;">📎 Attach Media (Optional)</label>
+                    <div class="chat-media-options">
+                        <label>
+                            <input type="radio" name="chatMediaMethod" value="none" checked onchange="toggleChatMediaMethod()"> No Media
+                        </label>
+                        <label>
+                            <input type="radio" name="chatMediaMethod" value="upload" onchange="toggleChatMediaMethod()"> Upload File
+                        </label>
+                    </div>
+                    
+                    <div id="chatMediaFile" class="chat-upload-method" style="display: none;">
+                        <input type="file" id="chatMediaFileInput" class="form-control" accept="image/*,video/*">
+                        <div id="chatMediaPreview" class="chat-media-preview" style="display: none;">
+                            <img src="" alt="Preview" id="chatMediaPreviewImg" style="display: none;">
+                            <video src="" controls id="chatMediaPreviewVideo" style="display: none;"></video>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-post-actions">
+                    <span class="char-count"><span id="charCount">0</span>/500</span>
+                    <button onclick="postChatMessage()" class="btn btn-primary">📤 Post Update</button>
+                </div>
+            </div>
+        </div>
+
+            <!-- Tabs -->
+            <div class="dashboard-tabs" style="margin: 30px 0; border-bottom: 2px solid var(--border-color);">
+                <button class="btn btn-primary" style="border-radius: 0;" onclick="showTab('settings')">Site Settings</button>
+                <button class="btn btn-secondary" style="border-radius: 0;" onclick="showTab('users')">Manage Users</button>
+                <button class="btn btn-secondary" style="border-radius: 0;" onclick="showTab('articles')">Manage Articles</button>
+                <button class="btn btn-secondary" style="border-radius: 0;" onclick="showTab('ads')">📢 Manage Ads</button>
+                <button class="btn btn-secondary" style="border-radius: 0;" onclick="showTab('livestreams')">🔴 Live Streaming</button>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settingsTab">
+                <h2>Site Settings</h2>
+                <div style="background: #e7f3ff; border-left: 4px solid #0052cc; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
+                    <strong>💡 Tip:</strong> You can update each field separately! Just change the field(s) you want (Site Name, Tagline, Theme Color, Article Card Color, or Article Title Color) and click Save. No need to fill all fields.
+                </div>
+                <form id="settingsForm" class="table-container">
+                    <div class="form-group">
+                        <label>Site Name <span style="color: #999; font-weight: normal;">(optional)</span></label>
+                        <input type="text" id="siteName" class="form-control" placeholder="Leave unchanged or enter new site name">
+                    </div>
+                    <div class="form-group">
+                        <label>Tagline <span style="color: #999; font-weight: normal;">(optional)</span></label>
+                        <input type="text" id="tagline" class="form-control" placeholder="Leave unchanged or enter new tagline">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Primary Color <span style="color: #999; font-weight: normal;">(optional)</span></label>
+                        <input type="color" id="primaryColor" class="form-control">
+                        <small style="color: #666;">Click to choose a new theme color (or leave unchanged)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Article Card Background Color <span style="color: #999; font-weight: normal;">(optional)</span></label>
+                        <input type="color" id="articleBgColor" class="form-control">
+                        <small style="color: #666;">Background color for article cards on homepage</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Article Title Color <span style="color: #999; font-weight: normal;">(optional)</span></label>
+                        <input type="color" id="articleTitleColor" class="form-control">
+                        <small style="color: #666;">Text color for article titles on homepage</small>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="submit" class="btn btn-success">💾 Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetToDefault()" title="Reset to original hard-coded values (MebratuGobeze)">🔄 Reset to Original</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="usersTab" class="hidden">
+                <div class="dashboard-header">
+                    <h2>User Management</h2>
+                    <button onclick="openUserModal()" class="btn btn-primary">+ Add New User</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Articles Tab -->
+            <div id="articlesTab" class="hidden">
+                <div class="dashboard-header">
+                    <h2>Article Management</h2>
+                    <button onclick="openArticleModal()" class="btn btn-primary">+ Create Article</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Author</th>
+                                <th>Status</th>
+                                <th>Views</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="articlesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Ads Tab -->
+            <div id="adsTab" class="hidden">
+                <div class="dashboard-header">
+                    <h2>📢 Advertisement Management</h2>
+                    <button onclick="openAdModal()" class="btn btn-primary">+ Create New Ad</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Ad Name</th>
+                                <th>Ad Space</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Views</th>
+                                <th>Clicks</th>
+                                <th>CTR</th>
+                                <th>Schedule</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Live Streaming Tab -->
+            <div id="livestreamsTab" class="hidden">
+                <div class="dashboard-header">
+                    <h2>🔴 Live Streaming Management</h2>
+                    <button onclick="openLiveStreamModal()" class="btn btn-primary">+ Create New Live Stream</button>
+                </div>
+
+                <p style="color: #666; margin-bottom: 20px;">
+                    <strong>Simple live streaming management.</strong> Active streams automatically display in the hero section with LIVE badge. Only <strong>one active stream</strong> can be shown at a time.
+                </p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Stream URL</th>
+                                <th>Status</th>
+                                <th>Viewers</th>
+                                <th>Started</th>
+                                <th>Duration</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="liveStreamsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="userModalTitle">Add New User</h2>
+                <span class="close" onclick="closeUserModal()">&times;</span>
+            </div>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" class="form-control" placeholder="e.g., Sarah Johnson">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" class="form-control">
+                    <small style="color: #666;">Leave blank to keep current password</small>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="role" class="form-control" required>
+                        <option value="user">User</option>
+                        <option value="reporter">Reporter</option>
+                        <option value="superadmin">Super Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Profile Picture</label>
+                    <div class="profile-picture-upload">
+                        <div class="profile-picture-options">
+                            <label>
+                                <input type="radio" name="profilePictureMethod" value="url" checked onchange="toggleProfilePictureMethod()"> Use URL
+                            </label>
+                            <label>
+                                <input type="radio" name="profilePictureMethod" value="upload" onchange="toggleProfilePictureMethod()"> Upload File
+                            </label>
+                        </div>
+                        <div id="profilePictureUrl" class="upload-method">
+                            <input type="url" id="profilePictureUrlInput" class="form-control" placeholder="https://example.com/photo.jpg">
+                        </div>
+                        <div id="profilePictureFile" class="upload-method" style="display: none;">
+                            <input type="file" id="profilePictureFileInput" class="form-control" accept="image/*">
+                            <div id="profilePicturePreview" class="file-preview" style="display: none;">
+                                <img src="" alt="Preview" id="profilePicturePreviewImg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save User</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Article Modal -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="articleModalTitle">Create Article</h2>
+                <span class="close" onclick="closeArticleModal()">&times;</span>
+            </div>
+            <form id="articleForm">
+                <input type="hidden" id="articleId">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="articleTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="articleCategory" class="form-control" list="categoryOptions" placeholder="Select or type a custom category" required>
+                    <datalist id="categoryOptions">
+                        <option value="Breaking">
+                        <option value="Political">
+                        <option value="World">
+                        <option value="Technology">
+                        <option value="Sports">
+                        <option value="Business">
+                        <option value="Entertainment">
+                        <option value="Health">
+                    </datalist>
+                    <small style="color: #666; margin-top: 5px; display: block;">You can select from the list or type your own category</small>
+                </div>
+                <div class="form-group">
+                    <label>Tags</label>
+                    <input type="text" id="articleTags" class="form-control" placeholder="e.g., politics, election, breaking-news" oninput="updateTagsPreview()">
+                    <small style="color: #666; margin-top: 5px; display: block;">
+                        Separate tags with commas. Tags help readers find related articles.
+                    </small>
+                    <div id="tagsPreview" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea id="articleContent" class="form-control" rows="10" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Method for Thumbnail</label>
+                    <div style="margin-bottom: 10px;">
+                        <label style="margin-right: 20px; font-weight: normal;">
+                            <input type="radio" name="thumbnailMethod" value="url" checked onchange="toggleThumbnailMethod()"> Use URL
+                        </label>
+                        <label style="font-weight: normal;">
+                            <input type="radio" name="thumbnailMethod" value="upload" onchange="toggleThumbnailMethod()"> Upload File
+                        </label>
+                    </div>
+                    <div id="thumbnailUrlGroup">
+                        <input type="url" id="articleImage" class="form-control" placeholder="https://example.com/image.jpg">
+                        <small style="color: #666;">Enter image URL</small>
+                    </div>
+                    <div id="thumbnailFileGroup" style="display: none;">
+                        <input type="file" id="thumbnailFile" class="form-control" accept="image/*">
+                        <small style="color: #666;">Upload image from your PC (max 100MB)</small>
+                        <div id="thumbnailPreview" style="margin-top: 10px;"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Media Type</label>
+                    <select id="articleMediaType" class="form-control" onchange="toggleMediaUrl()" required>
+                        <option value="image">📷 Image (Default)</option>
+                        <option value="video">🎥 Video</option>
+                        <option value="audio">🎵 Audio</option>
+                    </select>
+                    <small style="color: #666;">Choose the type of media for this article</small>
+                </div>
+                
+                <div class="form-group" id="mediaUrlGroup" style="display: none;">
+                    <label>Upload Method for Media</label>
+                    <div style="margin-bottom: 10px;">
+                        <label style="margin-right: 20px; font-weight: normal;">
+                            <input type="radio" name="mediaMethod" value="url" checked onchange="toggleMediaMethod()"> Use URL
+                        </label>
+                        <label style="font-weight: normal;">
+                            <input type="radio" name="mediaMethod" value="upload" onchange="toggleMediaMethod()"> Upload File
+                        </label>
+                    </div>
+                    <div id="mediaUrlInput">
+                        <input type="url" id="articleMediaUrl" class="form-control" placeholder="https://example.com/video.mp4 or audio.mp3">
+                        <small style="color: #666;">
+                            <strong>Video:</strong> Use .mp4 format<br>
+                            <strong>Audio:</strong> Use .mp3 or .ogg format
+                        </small>
+                    </div>
+                    <div id="mediaFileInput" style="display: none;">
+                        <input type="file" id="mediaFile" class="form-control" accept="video/*,audio/*">
+                        <small style="color: #666;">Upload video or audio from your PC (max 100MB)</small>
+                        <div id="mediaPreview" style="margin-top: 10px;"></div>
+                    </div>
+                    <div id="uploadProgress" style="display: none; margin-top: 10px;">
+                        <div style="background: #eee; border-radius: 4px; height: 20px; overflow: hidden;">
+                            <div id="progressBar" style="background: var(--primary-color); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        <small id="progressText" style="color: #666;">Uploading...</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="articleStatus" class="form-control" required>
+                        <option value="draft">Draft</option>
+                        <option value="published">Published</option>
+                    </select>
+                </div>
+                
+                <div style="border-top: 2px solid #e0e0e0; margin: 25px 0; padding-top: 20px;">
+                    <h3 style="font-size: 16px; margin-bottom: 15px; color: #555;">🎨 Article Card Styling (Optional)</h3>
+                    <div class="form-group">
+                        <label>Card Background Color</label>
+                        <input type="color" id="articleBgColorInput" class="form-control" value="#ffffff">
+                        <small style="color: #666;">Custom background color for this article's card</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Title Text Color</label>
+                        <input type="color" id="articleTitleColorInput" class="form-control" value="#1a1a1a">
+                        <small style="color: #666;">Custom title color for this article's card</small>
+                    </div>
+                </div>
+                
+                <!-- Hero Section Layout Controls -->
+                <div style="border-top: 2px solid #e0e0e0; margin: 25px 0; padding-top: 20px;">
+                    <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--n12-red);">📐 Hero Section Layout (When Featured)</h3>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Customize how this article appears in the hero section on the homepage</p>
+                    
+                    <div class="form-group">
+                        <label>Text Alignment</label>
+                        <select id="heroTextAlign" class="form-control">
+                            <option value="left">Left Aligned</option>
+                            <option value="center">Center Aligned</option>
+                            <option value="right">Right Aligned</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Content Position (Vertical)</label>
+                        <select id="heroOverlayPosition" class="form-control">
+                            <option value="bottom">Bottom (Default)</option>
+                            <option value="center">Center</option>
+                            <option value="top">Top</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Title Size</label>
+                        <select id="heroTitleSize" class="form-control">
+                            <option value="small">Small (28px)</option>
+                            <option value="medium" selected>Medium (38px)</option>
+                            <option value="large">Large (48px)</option>
+                            <option value="xlarge">Extra Large (56px)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" id="heroShowCategory" style="width: auto; margin: 0;" checked>
+                            <span>Show Category Badge</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" id="heroShowSubtitle" style="width: auto; margin: 0;" checked>
+                            <span>Show Description/Subtitle</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Image Overlay Darkness</label>
+                        <select id="heroImageOverlay" class="form-control">
+                            <option value="light">Light (30%)</option>
+                            <option value="medium">Medium (50%)</option>
+                            <option value="dark" selected>Dark (70%)</option>
+                            <option value="darker">Darker (85%)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Save Article</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Ad Modal -->
+    <div id="adModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="adModalTitle">Create New Advertisement</h2>
+                <span class="close" onclick="closeAdModal()">&times;</span>
+            </div>
+            <form id="adForm">
+                <input type="hidden" id="adId">
+                
+                <div class="form-group">
+                    <label>Ad Name *</label>
+                    <input type="text" id="adName" class="form-control" placeholder="Internal name for admin reference" required>
+                    <small style="color: #666;">This name is for your reference only, not visible to users</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Ad Spaces * (Select all locations where this ad should appear)</label>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6;">
+                        <div style="margin-bottom: 10px; font-weight: 600; color: #495057; border-bottom: 2px solid #dee2e6; padding-bottom: 8px;">
+                            📱 Homepage
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                            <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; background: white; border-radius: 4px;">
+                                <input type="checkbox" name="adSpace" value="top-banner" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span>Top Banner (970x90)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; background: white; border-radius: 4px;">
+                                <input type="checkbox" name="adSpace" value="bottom-banner" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span>Bottom Banner (728x90)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; background: white; border-radius: 4px;">
+                                <input type="checkbox" name="adSpace" value="sidebar-ad-1" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span>Sidebar #1 (300x250)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; background: white; border-radius: 4px;">
+                                <input type="checkbox" name="adSpace" value="sidebar-ad-2" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span>Sidebar #2 (300x600)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; background: white; border-radius: 4px;">
+                                <input type="checkbox" name="adSpace" value="popup-ad" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span>Popup (750x500)</span>
+                            </label>
+                        </div>
+                        
+                        <div style="margin-bottom: 10px; font-weight: 600; color: #495057; border-bottom: 2px solid #dee2e6; padding-bottom: 8px;">
+                            📄 Article Pages
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; background: white; border-radius: 4px;">
+                                <input type="checkbox" name="adSpace" value="article-top" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span>Top Banner (970x90)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; background: white; border-radius: 4px;">
+                                <input type="checkbox" name="adSpace" value="article-bottom" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span>Bottom Banner (728x90)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; background: white; border-radius: 4px;">
+                                <input type="checkbox" name="adSpace" value="article-popup" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span>Popup (750x500)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <small style="color: #666; margin-top: 5px; display: block;">✅ Select multiple locations to show the same ad everywhere</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Media Type *</label>
+                    <select id="adMediaType" class="form-control" onchange="toggleAdMediaType()" required>
+                        <option value="">Select media type...</option>
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                        <option value="audio">Audio</option>
+                        <option value="html">Custom HTML</option>
+                    </select>
+                </div>
+
+                <div id="adMediaUrlSection" style="display: none;" class="form-group">
+                    <label>Media File</label>
+                    <div style="margin-bottom: 10px;">
+                        <label style="margin-right: 20px;">
+                            <input type="radio" name="adMediaMethod" value="url" checked onchange="toggleAdMediaInputMethod()"> Use URL
+                        </label>
+                        <label>
+                            <input type="radio" name="adMediaMethod" value="upload" onchange="toggleAdMediaInputMethod()"> Upload File
+                        </label>
+                    </div>
+                    <div id="adMediaUrlInput">
+                        <input type="text" id="adMediaUrl" class="form-control" placeholder="https://example.com/image.jpg or /uploads/image.jpg">
+                    </div>
+                    <div id="adMediaFileInput" style="display: none;">
+                        <input type="file" id="adMediaFile" class="form-control" accept="image/*,video/*,audio/*">
+                        <div id="adMediaPreview" style="margin-top: 10px;"></div>
+                    </div>
+                </div>
+
+                <div id="adHtmlContentSection" style="display: none;" class="form-group">
+                    <label>HTML Content</label>
+                    <textarea id="adHtmlContent" class="form-control" rows="8" placeholder="Enter custom HTML code for the ad..."></textarea>
+                    <small style="color: #666;">Enter your custom HTML/CSS code here. Include &lt;a&gt; tags for links.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Link URL (Optional)</label>
+                    <input type="text" id="adLinkUrl" class="form-control" placeholder="https://advertiser-website.com">
+                    <small style="color: #666;">Where users go when clicking the ad (not needed for HTML type)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Schedule</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label style="font-size: 12px;">Start Date *</label>
+                            <input type="datetime-local" id="adStartDate" class="form-control" required>
+                        </div>
+                        <div>
+                            <label style="font-size: 12px;">End Date (Optional)</label>
+                            <input type="datetime-local" id="adEndDate" class="form-control">
+                            <small style="color: #666;">Leave empty for no end date</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="adIsActive" checked> Active (Show this ad)
+                    </label>
+                </div>
+
+                <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" onclick="closeAdModal()" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Ad</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Live Stream Modal -->
+    <div id="liveStreamModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="liveStreamModalTitle">🔴 Create New Live Stream</h2>
+                <span class="close" onclick="closeLiveStreamModal()">&times;</span>
+            </div>
+            <form id="liveStreamForm">
+                <input type="hidden" id="liveStreamId">
+                
+                <div class="form-group">
+                    <label>Live Stream Video URL *</label>
+                    <input type="url" id="liveStreamVideoUrl" class="form-control" placeholder="https://example.com/live-stream.m3u8" required>
+                    <small style="color: #666;">
+                        <strong>Supported formats:</strong><br>
+                        • YouTube Live: https://youtube.com/watch?v=...<br>
+                        • Vimeo Live: https://vimeo.com/...<br>
+                        • HLS Stream: https://example.com/stream.m3u8<br>
+                        • Direct Video: https://example.com/video.mp4
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Current Viewer Count (Optional)</label>
+                    <input type="number" id="liveStreamViewers" class="form-control" placeholder="e.g., 1250" min="0">
+                    <small style="color: #666;">Display viewer count like "1.2K watching". Leave empty or 0 to hide.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Stream Start Time (Optional)</label>
+                    <input type="datetime-local" id="liveStreamStart" class="form-control">
+                    <small style="color: #666;">Shows "Started X minutes ago". Leave empty to hide duration.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Status *</label>
+                    <select id="liveStreamStatus" class="form-control" required>
+                        <option value="active">🟢 Active (Live Now - Shows in Hero Section)</option>
+                        <option value="scheduled">🟡 Scheduled (Not Live Yet)</option>
+                        <option value="ended">🔴 Ended (Archived)</option>
+                    </select>
+                    <small style="color: #666;">Only "Active" streams will be displayed on the homepage.</small>
+                </div>
+
+                <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" onclick="closeLiveStreamModal()" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">💾 Save Live Stream</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="superadmin.js"></script>
+</body>
+</html>
+

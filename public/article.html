@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E1 - Ethiopia News Website</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e30613'/%3E%3Ctext x='100' y='140' font-family='Times New Roman,serif' font-size='120' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-5'%3EE1%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Top Bar - N12 Style -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <div class="datetime-display">
+                    <span id="currentDate"></span>
+                    <span class="separator">|</span>
+                    <span id="currentTime"></span>
+                </div>
+                <!-- Social Media Icons -->
+                <div class="social-media-icons">
+                    <a href="#" onclick="shareOnWhatsApp(); return false;" class="social-icon-small whatsapp" title="Share on WhatsApp" aria-label="Share on WhatsApp">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://www.tiktok.com/@yourchannel" target="_blank" rel="noopener noreferrer" class="social-icon-small tiktok" title="Follow us on TikTok" aria-label="TikTok">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" class="social-icon-small instagram" title="Follow us on Instagram" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://www.youtube.com/@yourchannel" target="_blank" rel="noopener noreferrer" class="social-icon-small youtube" title="Subscribe on YouTube" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" class="social-icon-small twitter" title="Follow us on Twitter" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div id="userInfo"></div>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en" title="English">EN</button>
+                    <button class="lang-btn" data-lang="am" title="አማርኛ">አማ</button>
+                    <button class="lang-btn" data-lang="he" title="עברית">עב</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" onclick="window.location.href='/'; return false;" aria-label="Go to homepage">
+                <img src="" alt="Logo" class="site-logo" id="siteLogo" style="display: none;">
+                <div class="logo-wrapper">
+                    <div class="logo-main">
+                        <span class="logo-text" id="siteName">MG</span>
+                        <div class="logo-bars">
+                            <div class="logo-bar"></div>
+                            <div class="logo-bar"></div>
+                            <div class="logo-bar"></div>
+                        </div>
+                    </div>
+                    <span class="logo-subtitle">NEWS</span>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="/" data-translate="home">Home</a></li>
+                <li><a href="/?category=all" data-translate="allNews">All News</a></li>
+                <li><a href="/?category=Political" data-translate="political">Political</a></li>
+                <li><a href="/?category=World" data-translate="world">World</a></li>
+                <li><a href="/?category=Technology" data-translate="technology">Technology</a></li>
+                <li><a href="/?category=Sports" data-translate="sports">Sports</a></li>
+                <li><a href="/?category=Business" data-translate="business">Business</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search news..." data-translate="search">
+                <button onclick="if(document.getElementById('searchInput').value) window.location.href='/?search='+document.getElementById('searchInput').value" data-translate="searchBtn">🔍</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Content -->
+    <div class="main-content">
+        <div class="container">
+            <div id="articleContent"></div>
+            
+            <!-- Engagement Section (Like/Dislike & Comments) -->
+            <div class="engagement-section-wrapper">
+                <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+                    <!-- Like/Dislike Section -->
+                    <div style="flex: 0 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);">
+                        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 15px; color: #333;">How do you feel about this article?</h3>
+                        <div id="reactionButtons" style="display: flex; gap: 15px; align-items: center;">
+                            <button onclick="handleReaction('like')" id="likeBtn" class="reaction-btn" title="Like">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"/>
+                                </svg>
+                                <span id="likeCount">0</span>
+                            </button>
+                            <button onclick="handleReaction('dislike')" id="dislikeBtn" class="reaction-btn" title="Dislike">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.023c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"/>
+                                </svg>
+                                <span id="dislikeCount">0</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section" style="flex: 1; min-width: 300px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);">
+                        <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 25px; color: #1a1a1a;">Comments</h2>
+                        
+                        <div id="commentForm">
+                            <form onsubmit="postComment(event)">
+                                <div class="form-group">
+                                    <input type="text" id="usernameInput" class="form-control" placeholder="Your name (optional)" style="margin-bottom: 10px;">
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="commentInput" class="form-control" placeholder="Write your comment..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Post Comment</button>
+                            </form>
+                        </div>
+                        
+                        <div id="commentsContainer" style="margin-top: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentArticle = null;
+
+        const articleId = window.location.pathname.split('/').pop();
+
+        // Session ID management for anonymous users
+        function getSessionId() {
+            let sessionId = localStorage.getItem('newsSessionId');
+            if (!sessionId) {
+                // Generate a unique session ID
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('newsSessionId', sessionId);
+            }
+            return sessionId;
+        }
+        
+        // Get stored username from localStorage
+        function getStoredUsername() {
+            return localStorage.getItem('newsUsername') || '';
+        }
+        
+        // Save username to localStorage
+        function saveUsername(username) {
+            if (username && username.trim()) {
+                localStorage.setItem('newsUsername', username.trim());
+            }
+        }
+
+        // Update date and time
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            
+            const dateElement = document.getElementById('currentDate');
+            const timeElement = document.getElementById('currentTime');
+            
+            if (dateElement) {
+                dateElement.textContent = now.toLocaleDateString('en-US', dateOptions);
+            }
+            if (timeElement) {
+                timeElement.textContent = now.toLocaleTimeString('en-US', timeOptions);
+            }
+        }
+
+        // Update date/time immediately and every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // Check auth
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/me', { credentials: 'include' });
+                if (response.ok) {
+                    const data = await response.json();
+                    currentUser = data.user;
+                    updateUI();
+                }
+            } catch (error) {
+                console.log('Not logged in');
+            }
+        }
+
+        function updateUI() {
+            const userInfo = document.getElementById('userInfo');
+            
+            if (currentUser && userInfo) {
+                userInfo.innerHTML = `
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span style="color: white;">Welcome, ${currentUser.username}</span>
+                        <button onclick="logout()" class="btn btn-secondary" style="padding: 5px 15px; font-size: 14px;">Logout</button>
+                    </div>
+                `;
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+            window.location.reload();
+        }
+
+        // Load article
+        async function loadArticle() {
+            try {
+                const response = await fetch(`/api/articles/${articleId}`);
+                const data = await response.json();
+                currentArticle = data.article;
+                displayArticle(data.article);
+                loadComments();
+                loadReactions();
+            } catch (error) {
+                document.getElementById('articleContent').innerHTML = '<p class="alert alert-error">Error loading article</p>';
+            }
+        }
+
+        function displayArticle(article) {
+            document.title = `${article.title} - NewsHub`;
+            const currentUrl = encodeURIComponent(window.location.href);
+            const articleTitle = encodeURIComponent(article.title);
+            const authorInitials = article.author.split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            document.getElementById('articleContent').innerHTML = `
+                <div class="article-header">
+                    <span class="article-category-badge">${article.category}</span>
+                    <h1 class="article-title">${article.title}</h1>
+                    
+                    <div class="article-meta-bar">
+                        <div class="article-author-info">
+                            <div class="author-avatar">${authorInitials}</div>
+                            <div class="author-details">
+                                <h4>${article.author}</h4>
+                                <p>${new Date(article.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                            </div>
+                        </div>
+                        <div class="article-stats">
+                            <div class="stat-item">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                                <span>${article.views} views</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Share Buttons -->
+                    <div class="social-share-bar">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${currentUrl}" target="_blank" class="share-btn-improved facebook" title="Share on Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url=${currentUrl}&text=${articleTitle}" target="_blank" class="share-btn-improved twitter" title="Share on Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}&title=${articleTitle}" target="_blank" class="share-btn-improved linkedin" title="Share on LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                        <a href="https://wa.me/?text=${articleTitle}%20${currentUrl}" target="_blank" class="share-btn-improved whatsapp" title="Share on WhatsApp">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        </a>
+                        <button onclick="copyToClipboard('${window.location.href}')" class="share-btn-improved copy" title="Copy link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                ${renderArticleMedia(article)}
+                
+                <div class="article-content-body">
+                    ${article.content.replace(/\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')}
+                </div>
+                
+                <!-- Related Articles Section -->
+                <div class="related-articles-section">
+                    <div class="section-title-bar">
+                        <h2>Related Articles</h2>
+                    </div>
+                    <div id="relatedArticles" class="related-articles-grid"></div>
+                </div>
+            `;
+            
+            // Load related articles
+            loadRelatedArticles(article.category, article.id);
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+        
+        // Render article media (image, video, or audio)
+        function renderArticleMedia(article) {
+            const mediaType = article.mediaType || 'image';
+            const mediaUrl = article.mediaUrl || article.imageUrl;
+            
+            // If no media URL, return empty string (no broken image)
+            if (!mediaUrl) {
+                return '';
+            }
+            
+            if (mediaType === 'video') {
+                return `
+                    <div style="position: relative; width: 100%; margin-bottom: 30px;">
+                        <div class="video-container article-page-video">
+                            <video 
+                                controls
+                                style="width: 100%; height: 450px; object-fit: cover; border-radius: 8px;"
+                                poster="${article.imageUrl}">
+                                <source src="${mediaUrl}" type="video/mp4">
+                                Your browser does not support video.
+                            </video>
+                            <button class="video-fullscreen-btn" onclick="toggleVideoFullscreen(event)" title="Fullscreen" style="top: auto; bottom: 10px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (mediaType === 'audio') {
+                return `
+                    <div style="position: relative; width: 100%; height: 450px; margin-bottom: 30px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                        <img src="${article.imageUrl}" alt="${article.title}" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; border-radius: 8px;">
+                        <audio controls style="position: relative; z-index: 10; width: 80%;">
+                            <source src="${mediaUrl}" type="audio/mpeg">
+                            Your browser does not support audio.
+                        </audio>
+                    </div>
+                `;
+            } else {
+                return `<img src="${article.imageUrl}" alt="${article.title}" style="width: 100%; height: 450px; object-fit: cover; margin-bottom: 30px; border-radius: 8px;">`;
+            }
+        }
+        
+        // Toggle video fullscreen
+        function toggleVideoFullscreen(event) {
+            event.stopPropagation();
+            const button = event.currentTarget;
+            const videoContainer = button.closest('.video-container');
+            const video = videoContainer.querySelector('video');
+            
+            if (!video) return;
+            
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) {
+                    video.msRequestFullscreen();
+                }
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+        
+        // Show fullscreen button when video is playing
+        document.addEventListener('play', function(e) {
+            if (e.target.tagName === 'VIDEO') {
+                const videoContainer = e.target.closest('.video-container');
+                if (videoContainer) {
+                    const button = videoContainer.querySelector('.video-fullscreen-btn');
+                    if (button) {
+                        button.style.opacity = '1';
+                    }
+                }
+            }
+        }, true);
+        
+        // Hide fullscreen button when video is paused (unless hovering)
+        document.addEventListener('pause', function(e) {
+            if (e.target.tagName === 'VIDEO') {
+                const videoContainer = e.target.closest('.video-container');
+                if (videoContainer && !videoContainer.matches(':hover')) {
+                    const button = videoContainer.querySelector('.video-fullscreen-btn');
+                    if (button) {
+                        button.style.opacity = '0';
+                    }
+                }
+            }
+        }, true);
+        
+        async function loadRelatedArticles(category, currentArticleId) {
+            try {
+                const response = await fetch(`/api/articles?status=published&category=${category}`);
+                const data = await response.json();
+                const related = data.articles.filter(a => a.id !== currentArticleId).slice(0, 3);
+                
+                const container = document.getElementById('relatedArticles');
+                container.innerHTML = related.map(article => `
+                    <div class="related-article-card" onclick="window.location.href='/article/${article.id}'">
+                        ${article.imageUrl ? `<img src="${article.imageUrl}" alt="${article.title}">` : ''}
+                        <div class="related-article-info">
+                            <div class="related-article-category">${article.category}</div>
+                            <h3 class="related-article-title">${article.title}</h3>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading related articles:', error);
+            }
+        }
+
+        // Load comments
+        async function loadComments() {
+            try {
+                const response = await fetch(`/api/articles/${articleId}/comments`);
+                const data = await response.json();
+                displayComments(data.comments);
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        function displayComments(comments) {
+            const container = document.getElementById('commentsContainer');
+            
+            if (comments.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = comments.map(comment => `
+                <div class="comment">
+                    <div class="comment-header">
+                        <span class="comment-author">${comment.username}</span>
+                        <span class="comment-time">${new Date(comment.createdAt).toLocaleString()}</span>
+                    </div>
+                    <p>${comment.content}</p>
+                    ${currentUser && (currentUser.id === comment.userId || currentUser.role === 'superadmin') ? 
+                        `<button onclick="deleteComment(${comment.id})" class="btn btn-danger" style="padding: 5px 10px; font-size: 12px; margin-top: 10px;">Delete</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        async function postComment(e) {
+            e.preventDefault();
+            
+            const content = document.getElementById('commentInput').value;
+            const usernameInput = document.getElementById('usernameInput');
+            let username = usernameInput.value.trim();
+            
+            // If no username provided, use stored username or default
+            if (!username) {
+                username = getStoredUsername() || 'Anonymous';
+            } else {
+                // Save username for future use
+                saveUsername(username);
+            }
+            
+            try {
+                const response = await fetch(`/api/articles/${articleId}/comments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content, username })
+                });
+
+                if (response.ok) {
+                    document.getElementById('commentInput').value = '';
+                    // Pre-fill username for next comment
+                    usernameInput.value = username !== 'Anonymous' ? username : '';
+                    loadComments();
+                } else {
+                    alert('Error posting comment');
+                }
+            } catch (error) {
+                alert('Error posting comment');
+            }
+        }
+
+        async function deleteComment(id) {
+            if (!confirm('Are you sure you want to delete this comment?')) return;
+            
+            try {
+                const response = await fetch(`/api/comments/${id}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    loadComments();
+                } else {
+                    alert('Error deleting comment');
+                }
+            } catch (error) {
+                alert('Error deleting comment');
+            }
+        }
+
+        // Reaction functions (like/dislike)
+        async function loadReactions() {
+            try {
+                // Load reaction counts
+                const response = await fetch(`/api/articles/${articleId}/reactions`);
+                const data = await response.json();
+                
+                document.getElementById('likeCount').textContent = data.reactions.likes;
+                document.getElementById('dislikeCount').textContent = data.reactions.dislikes;
+
+                // Load user's reaction using sessionId
+                const sessionId = getSessionId();
+                const userReactionResponse = await fetch(`/api/articles/${articleId}/reactions/me?sessionId=${sessionId}`);
+                const userReactionData = await userReactionResponse.json();
+                
+                // Highlight the button if user has reacted
+                if (userReactionData.reaction === 'like') {
+                    document.getElementById('likeBtn').classList.add('active');
+                } else if (userReactionData.reaction === 'dislike') {
+                    document.getElementById('dislikeBtn').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error loading reactions:', error);
+            }
+        }
+
+        async function handleReaction(type) {
+            const sessionId = getSessionId();
+
+            try {
+                const response = await fetch(`/api/articles/${articleId}/reactions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type, sessionId })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Update counts
+                    document.getElementById('likeCount').textContent = data.reactions.likes;
+                    document.getElementById('dislikeCount').textContent = data.reactions.dislikes;
+
+                    // Update button states
+                    const likeBtn = document.getElementById('likeBtn');
+                    const dislikeBtn = document.getElementById('dislikeBtn');
+                    
+                    likeBtn.classList.remove('active');
+                    dislikeBtn.classList.remove('active');
+
+                    if (data.action !== 'removed') {
+                        if (type === 'like') {
+                            likeBtn.classList.add('active');
+                        } else {
+                            dislikeBtn.classList.add('active');
+                        }
+                    }
+                } else {
+                    alert('Error reacting to article');
+                }
+            } catch (error) {
+                console.error('Error handling reaction:', error);
+                alert('Error reacting to article');
+            }
+        }
+
+        // Welcome Ad Modal Functions
+        // Initialize
+        checkAuth();
+        loadArticle();
+        
+        // Pre-fill username if stored
+        const storedUsername = getStoredUsername();
+        if (storedUsername) {
+            setTimeout(() => {
+                const usernameInput = document.getElementById('usernameInput');
+                if (usernameInput) {
+                    usernameInput.value = storedUsername;
+                }
+            }, 100);
+        }
+
+        // WhatsApp Share Function
+        function shareOnWhatsApp() {
+            const articleTitle = currentArticle ? currentArticle.title : document.title;
+            const pageUrl = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(articleTitle);
+            const text = `Check out this article: ${title}`;
+            const whatsappUrl = `https://wa.me/?text=${text}%20${pageUrl}`;
+            
+            // Check if mobile device
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // On mobile, try to open WhatsApp app
+                window.location.href = whatsappUrl;
+            } else {
+                // On desktop, open WhatsApp Web in new tab
+                window.open(whatsappUrl, '_blank');
+            }
+        }
+
+        // ========== AD MANAGEMENT FUNCTIONS ==========
+
+        // Load ad for specific space
+        async function loadAdForSpace(adSpaceId) {
+            console.log(`🔍 [ARTICLE PAGE] Loading ad for space: ${adSpaceId}`);
+            try {
+                const response = await fetch(`/api/ads/active/${adSpaceId}`);
+                console.log(`📡 [ARTICLE PAGE] API response status for ${adSpaceId}:`, response.status);
+                const data = await response.json();
+                console.log(`📦 [ARTICLE PAGE] API data for ${adSpaceId}:`, data);
+                
+                if (data.ad) {
+                    console.log(`✅ [ARTICLE PAGE] Ad found for ${adSpaceId}:`, data.ad.name);
+                    displayAd(data.ad, adSpaceId);
+                } else {
+                    console.warn(`⚠️ [ARTICLE PAGE] No ad returned for ${adSpaceId}`);
+                }
+            } catch (error) {
+                console.error(`❌ [ARTICLE PAGE] Error loading ad for ${adSpaceId}:`, error);
+            }
+        }
+
+        // Display ad in container
+        function displayAd(ad, adSpaceId) {
+            console.log(`🎨 [ARTICLE PAGE] Displaying ad for ${adSpaceId}...`);
+            
+            // Map ad space IDs to container element IDs
+            const containerIds = {
+                'article-top': 'topAdSpace',
+                'article-bottom': 'bottomAdSpace',
+                'article-popup': 'welcomeAdSpace'
+            };
+            
+            const containerId = containerIds[adSpaceId];
+            console.log(`📍 [ARTICLE PAGE] Container ID for ${adSpaceId}: ${containerId}`);
+            
+            if (!containerId) {
+                console.error(`❌ [ARTICLE PAGE] No container ID mapping for: ${adSpaceId}`);
+                return;
+            }
+            
+            const container = document.getElementById(containerId);
+            console.log(`📦 [ARTICLE PAGE] Container element:`, container);
+            
+            if (!container) {
+                console.error(`❌ [ARTICLE PAGE] Container element not found: ${containerId}`);
+                return;
+            }
+            
+            let adHTML = '';
+            
+            switch(ad.mediaType) {
+                case 'image':
+                    if (ad.linkUrl) {
+                        adHTML = `
+                            <a href="${ad.linkUrl}" target="_blank" onclick="trackAdClick(${ad.id})">
+                                <img src="${ad.mediaUrl}" alt="${ad.name}" style="width: 100%; height: auto; display: block;">
+                            </a>
+                        `;
+                    } else {
+                        adHTML = `<img src="${ad.mediaUrl}" alt="${ad.name}" style="width: 100%; height: auto; display: block;">`;
+                    }
+                    break;
+                    
+                case 'video':
+                    adHTML = `
+                        <video controls autoplay muted style="width: 100%; height: auto; display: block;">
+                            <source src="${ad.mediaUrl}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        ${ad.linkUrl ? `<a href="${ad.linkUrl}" target="_blank" onclick="trackAdClick(${ad.id})" class="btn btn-primary" style="margin-top: 10px;">Learn More</a>` : ''}
+                    `;
+                    break;
+                    
+                case 'audio':
+                    adHTML = `
+                        <audio controls autoplay style="width: 100%;">
+                            <source src="${ad.mediaUrl}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        ${ad.linkUrl ? `<a href="${ad.linkUrl}" target="_blank" onclick="trackAdClick(${ad.id})">Visit Site →</a>` : ''}
+                    `;
+                    break;
+                    
+                case 'html':
+                    adHTML = ad.htmlContent;
+                    break;
+            }
+            
+            console.log(`✏️ [ARTICLE PAGE] Setting container HTML for ${adSpaceId}...`);
+            container.innerHTML = adHTML;
+            console.log(`✅ [ARTICLE PAGE] Ad displayed successfully in ${containerId}!`);
+            
+            // Add click tracking to links if needed
+            if (ad.linkUrl && ad.mediaType === 'html') {
+                const links = container.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', () => trackAdClick(ad.id));
+                });
+            }
+        }
+
+        // Track ad click
+        async function trackAdClick(adId) {
+            try {
+                await fetch(`/api/ads/${adId}/click`, { method: 'POST' });
+            } catch (error) {
+                console.error('Error tracking click:', error);
+            }
+        }
+
+        // Load all ads on page load
+        loadAdForSpace('article-top');
+        loadAdForSpace('article-bottom');
+        // Note: article-popup is loaded by showWelcomeAd() function above
+
+        // ========== LOAD AND APPLY SITE SETTINGS ==========
+        async function loadSiteSettings() {
+            try {
+                const response = await fetch('/api/settings');
+                const data = await response.json();
+                const settings = data.settings;
+                
+                // Apply site name to title and header
+                const siteName = settings.siteName || 'MebratuGobeze';
+                const currentTitle = document.title;
+                if (currentTitle.includes(' - ')) {
+                    const articleTitle = currentTitle.split(' - ')[0];
+                    document.title = `${articleTitle} - ${siteName}`;
+                } else {
+                    document.title = `Article - ${siteName}`;
+                }
+                
+                const siteNameElement = document.getElementById('siteName');
+                if (siteNameElement) {
+                    siteNameElement.textContent = siteName;
+                }
+                
+                // Apply logo
+                const logoElement = document.getElementById('siteLogo');
+                if (logoElement) {
+                    if (settings.logo) {
+                        logoElement.src = settings.logo;
+                        logoElement.style.display = 'block';
+                        logoElement.onerror = function() {
+                            this.style.display = 'none';
+                        };
+                    } else {
+                        logoElement.style.display = 'none';
+                    }
+                }
+                
+                // Apply primary color as CSS variable
+                if (settings.primaryColor) {
+                    document.documentElement.style.setProperty('--primary-color', settings.primaryColor);
+                    document.documentElement.style.setProperty('--n12-red', settings.primaryColor);
+                    document.documentElement.style.setProperty('--n12-red-dark', settings.primaryColor);
+                }
+                
+                console.log('✅ [ARTICLE PAGE] Site settings loaded:', settings);
+            } catch (error) {
+                console.error('[ARTICLE PAGE] Error loading site settings:', error);
+            }
+        }
+        
+        // Load settings on page load
+        loadSiteSettings();
+        
+        // Back to Top Button functionality
+        const backToTopButton = document.createElement('button');
+        backToTopButton.className = 'back-to-top';
+        backToTopButton.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        `;
+        backToTopButton.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.body.appendChild(backToTopButton);
+        
+        // Show/hide back to top button
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>
+

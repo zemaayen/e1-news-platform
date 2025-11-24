@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E1 - Ethiopia News Website</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e30613'/%3E%3Ctext x='100' y='140' font-family='Times New Roman,serif' font-size='120' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-5'%3EE1%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div style="display: flex; gap: 20px; align-items: center; width: 100%; justify-content: space-between;">
+                <span class="live-badge">📝 REPORTER</span>
+                <div id="userInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>📰 Reporter Dashboard</h1>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <a href="/" class="btn btn-secondary">View Site</a>
+                <button onclick="logout()" class="btn btn-danger">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>My Articles</h2>
+                <button onclick="openArticleModal()" class="btn btn-primary">+ Create New Article</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Articles</h3>
+                    <div class="number" id="totalArticles">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Published</h3>
+                    <div class="number" id="publishedArticles">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Drafts</h3>
+                    <div class="number" id="draftArticles">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Views</h3>
+                    <div class="number" id="totalViews">0</div>
+                </div>
+            </div>
+
+        <!-- Live Updates / Chat Section -->
+        <div class="chat-post-section">
+            <h3>🔥 Post Live Update</h3>
+            <div class="chat-post-form">
+                <textarea id="chatMessageInput" placeholder="Type your live update here... (e.g., Breaking news, live coverage, quick updates)" rows="3" maxlength="500"></textarea>
+                
+                <!-- Media Upload Section -->
+                <div class="chat-media-upload">
+                    <label style="font-weight: 600; margin-bottom: 10px; display: block;">📎 Attach Media (Optional)</label>
+                    <div class="chat-media-options">
+                        <label>
+                            <input type="radio" name="chatMediaMethod" value="none" checked onchange="toggleChatMediaMethod()"> No Media
+                        </label>
+                        <label>
+                            <input type="radio" name="chatMediaMethod" value="upload" onchange="toggleChatMediaMethod()"> Upload File
+                        </label>
+                    </div>
+                    
+                    <div id="chatMediaFile" class="chat-upload-method" style="display: none;">
+                        <input type="file" id="chatMediaFileInput" class="form-control" accept="image/*,video/*">
+                        <div id="chatMediaPreview" class="chat-media-preview" style="display: none;">
+                            <img src="" alt="Preview" id="chatMediaPreviewImg" style="display: none;">
+                            <video src="" controls id="chatMediaPreviewVideo" style="display: none;"></video>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-post-actions">
+                    <span class="char-count"><span id="charCount">0</span>/500</span>
+                    <button onclick="postChatMessage()" class="btn btn-primary">📤 Post Update</button>
+                </div>
+            </div>
+        </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Views</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="articlesTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article Modal -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="articleModalTitle">Create New Article</h2>
+                <span class="close" onclick="closeArticleModal()">&times;</span>
+            </div>
+            <form id="articleForm">
+                <input type="hidden" id="articleId">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="articleTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <input type="text" id="articleCategory" class="form-control" list="categoryOptions" placeholder="Select or type a custom category" required>
+                    <datalist id="categoryOptions">
+                        <option value="Breaking">
+                        <option value="Political">
+                        <option value="World">
+                        <option value="Technology">
+                        <option value="Sports">
+                        <option value="Business">
+                        <option value="Entertainment">
+                        <option value="Health">
+                    </datalist>
+                    <small style="color: #666; margin-top: 5px; display: block;">You can select from the list or type your own category</small>
+                </div>
+                <div class="form-group">
+                    <label>Content *</label>
+                    <textarea id="articleContent" class="form-control" rows="12" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Method for Thumbnail *</label>
+                    <div style="margin-bottom: 10px;">
+                        <label style="margin-right: 20px; font-weight: normal;">
+                            <input type="radio" name="thumbnailMethod" value="url" checked onchange="toggleThumbnailMethod()"> Use URL
+                        </label>
+                        <label style="font-weight: normal;">
+                            <input type="radio" name="thumbnailMethod" value="upload" onchange="toggleThumbnailMethod()"> Upload File
+                        </label>
+                    </div>
+                    <div id="thumbnailUrlGroup">
+                        <input type="url" id="articleImage" class="form-control" placeholder="https://example.com/image.jpg">
+                        <small style="color: #666;">Enter image URL</small>
+                    </div>
+                    <div id="thumbnailFileGroup" style="display: none;">
+                        <input type="file" id="thumbnailFile" class="form-control" accept="image/*">
+                        <small style="color: #666;">Upload image from your PC (max 100MB)</small>
+                        <div id="thumbnailPreview" style="margin-top: 10px;"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Media Type *</label>
+                    <select id="articleMediaType" class="form-control" onchange="toggleMediaUrl()" required>
+                        <option value="image">📷 Image (Default)</option>
+                        <option value="video">🎥 Video</option>
+                        <option value="audio">🎵 Audio</option>
+                    </select>
+                    <small style="color: #666;">Choose the type of media for this article</small>
+                </div>
+                
+                <div class="form-group" id="mediaUrlGroup" style="display: none;">
+                    <label>Upload Method for Media *</label>
+                    <div style="margin-bottom: 10px;">
+                        <label style="margin-right: 20px; font-weight: normal;">
+                            <input type="radio" name="mediaMethod" value="url" checked onchange="toggleMediaMethod()"> Use URL
+                        </label>
+                        <label style="font-weight: normal;">
+                            <input type="radio" name="mediaMethod" value="upload" onchange="toggleMediaMethod()"> Upload File
+                        </label>
+                    </div>
+                    <div id="mediaUrlInput">
+                        <input type="url" id="articleMediaUrl" class="form-control" placeholder="https://example.com/video.mp4 or audio.mp3">
+                        <small style="color: #666;">
+                            <strong>Video:</strong> Use .mp4 format<br>
+                            <strong>Audio:</strong> Use .mp3 or .ogg format
+                        </small>
+                    </div>
+                    <div id="mediaFileInput" style="display: none;">
+                        <input type="file" id="mediaFile" class="form-control" accept="video/*,audio/*">
+                        <small style="color: #666;">Upload video or audio from your PC (max 100MB)</small>
+                        <div id="mediaPreview" style="margin-top: 10px;"></div>
+                    </div>
+                    <div id="uploadProgress" style="display: none; margin-top: 10px;">
+                        <div style="background: #eee; border-radius: 4px; height: 20px; overflow: hidden;">
+                            <div id="progressBar" style="background: var(--primary-color); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        <small id="progressText" style="color: #666;">Uploading...</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Status *</label>
+                    <select id="articleStatus" class="form-control" required>
+                        <option value="draft">Draft (Save for later)</option>
+                        <option value="published">Published (Go live immediately)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Article</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let articles = [];
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/me', { credentials: 'include' });
+                if (!response.ok) {
+                    window.location.href = '/login';
+                    return;
+                }
+                const data = await response.json();
+                currentUser = data.user;
+                
+                if (currentUser.role !== 'reporter' && currentUser.role !== 'superadmin') {
+                    alert('Access denied. Reporter access required.');
+                    window.location.href = '/';
+                    return;
+                }
+                
+                document.getElementById('userInfo').innerHTML = `<span>Welcome, ${currentUser.username}</span>`;
+                loadArticles();
+            } catch (error) {
+                window.location.href = '/login';
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+            window.location.href = '/';
+        }
+
+        async function loadArticles() {
+            const response = await fetch('/api/articles/my', { credentials: 'include' });
+            const data = await response.json();
+            articles = data.articles;
+            
+            updateStats();
+            displayArticles();
+        }
+
+        function updateStats() {
+            document.getElementById('totalArticles').textContent = articles.length;
+            document.getElementById('publishedArticles').textContent = articles.filter(a => a.status === 'published').length;
+            document.getElementById('draftArticles').textContent = articles.filter(a => a.status === 'draft').length;
+            document.getElementById('totalViews').textContent = articles.reduce((sum, a) => sum + a.views, 0);
+        }
+
+        function displayArticles() {
+            const tbody = document.getElementById('articlesTable');
+            
+            if (articles.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #666;">No articles yet. Create your first article!</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = articles.map(article => `
+                <tr>
+                    <td>${article.id}</td>
+                    <td>${article.title.substring(0, 40)}${article.title.length > 40 ? '...' : ''}</td>
+                    <td><span style="background: var(--primary-color); color: white; padding: 3px 10px; border-radius: 4px; font-size: 12px;">${article.category}</span></td>
+                    <td><span style="background: ${article.status === 'published' ? 'var(--success-color)' : 'var(--warning-color)'}; color: white; padding: 3px 10px; border-radius: 4px; font-size: 12px;">${article.status}</span></td>
+                    <td>👁️ ${article.views}</td>
+                    <td>${new Date(article.createdAt).toLocaleDateString()}</td>
+                    <td>
+                        <button onclick="viewArticle(${article.id})" class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin: 2px;">View</button>
+                        <button onclick="editArticle(${article.id})" class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin: 2px;">Edit</button>
+                        <button onclick="deleteArticle(${article.id})" class="btn btn-danger" style="padding: 5px 10px; font-size: 12px; margin: 2px;">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Toggle between URL and file upload for thumbnail
+        function toggleThumbnailMethod() {
+            const method = document.querySelector('input[name="thumbnailMethod"]:checked').value;
+            const urlGroup = document.getElementById('thumbnailUrlGroup');
+            const fileGroup = document.getElementById('thumbnailFileGroup');
+            const urlInput = document.getElementById('articleImage');
+            const fileInput = document.getElementById('thumbnailFile');
+            
+            if (method === 'url') {
+                urlGroup.style.display = 'block';
+                fileGroup.style.display = 'none';
+                urlInput.setAttribute('required', 'required');
+                fileInput.removeAttribute('required');
+            } else {
+                urlGroup.style.display = 'none';
+                fileGroup.style.display = 'block';
+                urlInput.removeAttribute('required');
+                fileInput.setAttribute('required', 'required');
+            }
+        }
+        
+        // Toggle between URL and file upload for media
+        function toggleMediaMethod() {
+            const method = document.querySelector('input[name="mediaMethod"]:checked').value;
+            const urlInput = document.getElementById('mediaUrlInput');
+            const fileInput = document.getElementById('mediaFileInput');
+            
+            if (method === 'url') {
+                urlInput.style.display = 'block';
+                fileInput.style.display = 'none';
+            } else {
+                urlInput.style.display = 'none';
+                fileInput.style.display = 'block';
+            }
+        }
+
+        function toggleMediaUrl() {
+            const mediaType = document.getElementById('articleMediaType').value;
+            const mediaUrlGroup = document.getElementById('mediaUrlGroup');
+            const mediaUrlInput = document.getElementById('articleMediaUrl');
+            
+            if (mediaType === 'image') {
+                mediaUrlGroup.style.display = 'none';
+                mediaUrlInput.removeAttribute('required');
+            } else {
+                mediaUrlGroup.style.display = 'block';
+                // Required is handled by the method selection
+            }
+        }
+        
+        // Upload file to server
+        async function uploadFile(file, fieldName = 'file') {
+            const formData = new FormData();
+            formData.append(fieldName, file);
+            
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Upload failed');
+                }
+                
+                const data = await response.json();
+                return data.url;
+            } catch (error) {
+                console.error('Upload error:', error);
+                throw error;
+            }
+        }
+        
+        // Preview uploaded files
+        document.getElementById('thumbnailFile')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const preview = document.getElementById('thumbnailPreview');
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 200px; border-radius: 8px;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        document.getElementById('mediaFile')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const preview = document.getElementById('mediaPreview');
+                const fileName = file.name;
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                preview.innerHTML = `<p style="color: #666;">📁 ${fileName} (${fileSize} MB)</p>`;
+            }
+        });
+
+        function openArticleModal() {
+            document.getElementById('articleModalTitle').textContent = 'Create New Article';
+            document.getElementById('articleForm').reset();
+            document.getElementById('articleId').value = '';
+            document.getElementById('articleMediaType').value = 'image';
+            toggleMediaUrl();
+            document.getElementById('articleModal').classList.add('active');
+        }
+
+        function closeArticleModal() {
+            document.getElementById('articleModal').classList.remove('active');
+        }
+
+        function viewArticle(id) {
+            window.open(`/article/${id}`, '_blank');
+        }
+
+        async function editArticle(id) {
+            const article = articles.find(a => a.id === id);
+            
+            if (article) {
+                document.getElementById('articleModalTitle').textContent = 'Edit Article';
+                document.getElementById('articleId').value = article.id;
+                document.getElementById('articleTitle').value = article.title;
+                document.getElementById('articleCategory').value = article.category;
+                document.getElementById('articleContent').value = article.content;
+                document.getElementById('articleImage').value = article.imageUrl;
+                document.getElementById('articleMediaType').value = article.mediaType || 'image';
+                document.getElementById('articleMediaUrl').value = article.mediaUrl || '';
+                document.getElementById('articleStatus').value = article.status;
+                toggleMediaUrl();
+                document.getElementById('articleModal').classList.add('active');
+            }
+        }
+
+        async function deleteArticle(id) {
+            if (!confirm('Are you sure you want to delete this article? This action cannot be undone.')) return;
+            
+            const response = await fetch(`/api/articles/${id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                alert('Article deleted successfully!');
+                loadArticles();
+            } else {
+                alert('Error deleting article');
+            }
+        }
+
+        document.getElementById('articleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                const articleId = document.getElementById('articleId').value;
+                const mediaType = document.getElementById('articleMediaType').value;
+                
+                // Determine thumbnail URL (upload or URL)
+                let imageUrl;
+                const thumbnailMethod = document.querySelector('input[name="thumbnailMethod"]:checked').value;
+                if (thumbnailMethod === 'upload') {
+                    const thumbnailFile = document.getElementById('thumbnailFile').files[0];
+                    if (thumbnailFile) {
+                        const uploadProgress = document.getElementById('uploadProgress');
+                        const progressText = document.getElementById('progressText');
+                        if (uploadProgress) uploadProgress.style.display = 'block';
+                        if (progressText) progressText.textContent = 'Uploading thumbnail...';
+                        imageUrl = await uploadFile(thumbnailFile, 'file');
+                        if (uploadProgress) uploadProgress.style.display = 'none';
+                    } else {
+                        alert('Please select a thumbnail image');
+                        return;
+                    }
+                } else {
+                    imageUrl = document.getElementById('articleImage').value;
+                }
+                
+                // Determine media URL (upload or URL)
+                let mediaUrl;
+                if (mediaType === 'image') {
+                    mediaUrl = imageUrl;
+                } else {
+                    const mediaMethod = document.querySelector('input[name="mediaMethod"]:checked').value;
+                    if (mediaMethod === 'upload') {
+                        const mediaFile = document.getElementById('mediaFile').files[0];
+                        if (mediaFile) {
+                            const uploadProgress = document.getElementById('uploadProgress');
+                            const progressText = document.getElementById('progressText');
+                            if (uploadProgress) uploadProgress.style.display = 'block';
+                            if (progressText) progressText.textContent = 'Uploading media file...';
+                            mediaUrl = await uploadFile(mediaFile, 'file');
+                            if (uploadProgress) uploadProgress.style.display = 'none';
+                        } else {
+                            alert('Please select a media file');
+                            return;
+                        }
+                    } else {
+                        mediaUrl = document.getElementById('articleMediaUrl').value;
+                    }
+                }
+                
+                // Format category: trim, capitalize first letter
+                const categoryValue = document.getElementById('articleCategory').value.trim();
+                const formattedCategory = categoryValue.charAt(0).toUpperCase() + categoryValue.slice(1);
+                
+                const articleData = {
+                    title: document.getElementById('articleTitle').value,
+                    category: formattedCategory,
+                    content: document.getElementById('articleContent').value,
+                    imageUrl: imageUrl,
+                    mediaType: mediaType,
+                    mediaUrl: mediaUrl,
+                    status: document.getElementById('articleStatus').value
+                };
+                
+                let response;
+                if (articleId) {
+                    response = await fetch(`/api/articles/${articleId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify(articleData)
+                    });
+                } else {
+                    response = await fetch('/api/articles', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify(articleData)
+                    });
+                }
+                
+                if (response.ok) {
+                    alert(articleId ? 'Article updated successfully!' : 'Article created successfully!');
+                    closeArticleModal();
+                    loadArticles();
+                } else {
+                    const data = await response.json();
+                    alert(data.error || 'Error saving article');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error saving article: ' + error.message);
+                const uploadProgress = document.getElementById('uploadProgress');
+                if (uploadProgress) uploadProgress.style.display = 'none';
+            }
+        });
+
+        // Chat message posting functions
+        const chatInput = document.getElementById('chatMessageInput');
+        const charCount = document.getElementById('charCount');
+        
+        if (chatInput && charCount) {
+            chatInput.addEventListener('input', () => {
+                charCount.textContent = chatInput.value.length;
+            });
+        }
+        
+        async function postChatMessage() {
+            const message = chatInput.value.trim();
+            
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+            
+            try {
+                const messageData = { message };
+                
+                // Handle media upload
+                const mediaMethod = document.querySelector('input[name="chatMediaMethod"]:checked').value;
+                if (mediaMethod === 'upload') {
+                    const fileInput = document.getElementById('chatMediaFileInput');
+                    if (fileInput.files && fileInput.files[0]) {
+                        const formData = new FormData();
+                        formData.append('file', fileInput.files[0]);
+                        
+                        const uploadResponse = await fetch('/api/upload', {
+                            method: 'POST',
+                            credentials: 'include',
+                            body: formData
+                        });
+                        
+                        if (uploadResponse.ok) {
+                            const uploadData = await uploadResponse.json();
+                            messageData.mediaUrl = uploadData.url;
+                            
+                            // Determine media type
+                            const file = fileInput.files[0];
+                            if (file.type.startsWith('image/')) {
+                                messageData.mediaType = 'image';
+                            } else if (file.type.startsWith('video/')) {
+                                messageData.mediaType = 'video';
+                            }
+                        } else {
+                            alert('Error uploading media file');
+                            return;
+                        }
+                    }
+                }
+                
+                const response = await fetch('/api/chat-messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(messageData)
+                });
+                
+                if (response.ok) {
+                    alert('✅ Live update posted successfully!');
+                    chatInput.value = '';
+                    charCount.textContent = '0';
+                    
+                    // Reset media upload
+                    document.querySelector('input[name="chatMediaMethod"][value="none"]').checked = true;
+                    toggleChatMediaMethod();
+                } else {
+                    const data = await response.json();
+                    alert('Error: ' + (data.error || 'Could not post update'));
+                }
+            } catch (error) {
+                console.error('Error posting chat message:', error);
+                alert('Error posting update');
+            }
+        }
+        
+        // Toggle chat media method
+        function toggleChatMediaMethod() {
+            const method = document.querySelector('input[name="chatMediaMethod"]:checked').value;
+            const fileDiv = document.getElementById('chatMediaFile');
+            
+            if (method === 'upload') {
+                fileDiv.style.display = 'block';
+            } else {
+                fileDiv.style.display = 'none';
+                document.getElementById('chatMediaFileInput').value = '';
+                document.getElementById('chatMediaPreview').style.display = 'none';
+            }
+        }
+        
+        // Chat media file preview
+        const chatMediaFileInput = document.getElementById('chatMediaFileInput');
+        if (chatMediaFileInput) {
+            chatMediaFileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const preview = document.getElementById('chatMediaPreview');
+                        const img = document.getElementById('chatMediaPreviewImg');
+                        const video = document.getElementById('chatMediaPreviewVideo');
+                        
+                        if (file.type.startsWith('image/')) {
+                            img.src = e.target.result;
+                            img.style.display = 'block';
+                            video.style.display = 'none';
+                        } else if (file.type.startsWith('video/')) {
+                            video.src = e.target.result;
+                            video.style.display = 'block';
+                            img.style.display = 'none';
+                        }
+                        
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>
+

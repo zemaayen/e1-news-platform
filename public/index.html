@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E1 - Ethiopia News Website</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e30613'/%3E%3Ctext x='100' y='140' font-family='Times New Roman,serif' font-size='120' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-5'%3EE1%3C/text%3E%3C/svg%3E">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#e30613">
+    <meta name="msapplication-TileColor" content="#e30613">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Bar - N12 Style -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <div class="datetime-display">
+                    <span id="currentDate"></span>
+                    <span class="separator">|</span>
+                    <span id="currentTime"></span>
+                </div>
+                <!-- Social Media Icons -->
+                <div class="social-media-icons">
+                    <a href="#" onclick="shareOnWhatsApp(); return false;" class="social-icon-small whatsapp" title="Share on WhatsApp" aria-label="Share on WhatsApp">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://www.tiktok.com/@yourchannel" target="_blank" rel="noopener noreferrer" class="social-icon-small tiktok" title="Follow us on TikTok" aria-label="TikTok">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" class="social-icon-small instagram" title="Follow us on Instagram" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://www.youtube.com/@yourchannel" target="_blank" rel="noopener noreferrer" class="social-icon-small youtube" title="Subscribe on YouTube" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" class="social-icon-small twitter" title="Follow us on Twitter" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div id="userInfo"></div>
+                
+                <!-- Theme Customization Controls -->
+                <div class="theme-controls">
+                    <button class="theme-btn" id="darkModeToggle" title="Toggle Dark Mode" onclick="toggleDarkMode()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sun-icon">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="moon-icon" style="display: none;">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="theme-btn" id="fontSizeToggle" title="Font Size" onclick="cycleFontSize()">
+                        <span class="font-size-indicator">A</span>
+                    </button>
+                    <button class="theme-btn" id="readingModeToggle" title="Toggle Reading Mode" onclick="toggleReadingMode()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en" title="English">EN</button>
+                    <button class="lang-btn" data-lang="am" title="አማርኛ">አማ</button>
+                    <button class="lang-btn" data-lang="he" title="עברית">עב</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" onclick="goToHome(); return false;" aria-label="Go to homepage">
+                <img src="" alt="Logo" class="site-logo" id="siteLogo" style="display: none;">
+                <div class="logo-wrapper">
+                    <div class="logo-main">
+                        <span class="logo-text" id="siteName">E1</span>
+                    </div>
+                    <span class="logo-subtitle">NEWS</span>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="goToHome(); return false;" class="active" data-translate="home">Home</a></li>
+                <li><a href="#" onclick="filterByCategory('all'); return false;" data-translate="allNews">All News</a></li>
+                <li><a href="#" onclick="filterByCategory('Political'); return false;" data-translate="political">Political</a></li>
+                <li><a href="#" onclick="filterByCategory('World'); return false;" data-translate="world">World</a></li>
+                <li><a href="#" onclick="filterByCategory('Technology'); return false;" data-translate="technology">Technology</a></li>
+                <li><a href="#" onclick="filterByCategory('Sports'); return false;" data-translate="sports">Sports</a></li>
+                <li><a href="#" onclick="filterByCategory('Business'); return false;" data-translate="business">Business</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search news..." data-translate="search" onkeyup="handleSearch(event)" autocomplete="off">
+                <button onclick="performSearch()" data-translate="searchBtn">🔍</button>
+                <button class="advanced-search-toggle" onclick="toggleAdvancedSearch()" title="Advanced Search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                    </svg>
+                </button>
+                <!-- Search Autocomplete Dropdown -->
+                <div class="search-autocomplete" id="searchAutocomplete"></div>
+            </div>
+            <a href="/login" class="nav-login-btn" data-translate="login">Login</a>
+        </div>
+    </nav>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3 data-translate="categories">📂 Categories</h3>
+            <button class="close-menu" onclick="toggleSideMenu()">&times;</button>
+        </div>
+        <div class="side-menu-content">
+            <!-- Categories Section -->
+            <ul class="menu-list">
+                <li><a href="#" onclick="goToHome(); toggleSideMenu(); return false;" data-translate="home">🏠 Home</a></li>
+                <li><a href="#" onclick="filterByCategory('all'); toggleSideMenu(); return false;" data-translate="allNews">📰 All News</a></li>
+                <li><a href="#" onclick="filterByCategory('Political'); toggleSideMenu(); return false;" data-translate="political">🏛️ Political</a></li>
+                <li><a href="#" onclick="filterByCategory('World'); toggleSideMenu(); return false;" data-translate="world">🌍 World</a></li>
+                <li><a href="#" onclick="filterByCategory('Technology'); toggleSideMenu(); return false;" data-translate="technology">💻 Technology</a></li>
+                <li><a href="#" onclick="filterByCategory('Sports'); toggleSideMenu(); return false;" data-translate="sports">⚽ Sports</a></li>
+                <li><a href="#" onclick="filterByCategory('Business'); toggleSideMenu(); return false;" data-translate="business">💼 Business</a></li>
+                <li><a href="#" onclick="filterByCategory('Entertainment'); toggleSideMenu(); return false;" data-translate="entertainment">🎬 Entertainment</a></li>
+                <li><a href="#" onclick="filterByCategory('Health'); toggleSideMenu(); return false;" data-translate="health">🏥 Health</a></li>
+            </ul>
+            
+            <!-- Login/User Section -->
+            <div class="menu-section">
+                <a href="/login" class="menu-login-btn" id="loginBtn" data-translate="login">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/>
+                    </svg>
+                    Login
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleSideMenu()"></div>
+
+    <!-- Breaking News Ticker - N12 Style -->
+    <div class="breaking-news-ticker" id="breaking">
+        <div class="container">
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger-menu" onclick="toggleSideMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <span class="ticker-label"><span data-translate="breakingNews">BREAKING NEWS</span></span>
+            <div class="ticker-wrapper">
+                <span class="ticker-content" id="breakingNewsTicker">
+                    Loading breaking news...
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Search Panel -->
+    <div class="advanced-search-panel" id="advancedSearchPanel">
+        <div class="container">
+            <h3>🔍 Advanced Search</h3>
+            <div class="advanced-search-grid">
+                <div class="search-filter-group">
+                    <label>Category</label>
+                    <select id="filterCategory" onchange="applyAdvancedSearch()">
+                        <option value="">All Categories</option>
+                        <option value="Breaking">Breaking</option>
+                        <option value="Political">Political</option>
+                        <option value="World">World</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Business">Business</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Health">Health</option>
+                    </select>
+                </div>
+                <div class="search-filter-group">
+                    <label>Date Range</label>
+                    <select id="filterDateRange" onchange="applyAdvancedSearch()">
+                        <option value="">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+                <div class="search-filter-group" id="customDateGroup" style="display: none;">
+                    <label>From</label>
+                    <input type="date" id="filterDateFrom" onchange="applyAdvancedSearch()">
+                </div>
+                <div class="search-filter-group" id="customDateToGroup" style="display: none;">
+                    <label>To</label>
+                    <input type="date" id="filterDateTo" onchange="applyAdvancedSearch()">
+                </div>
+                <div class="search-filter-group">
+                    <label>Sort By</label>
+                    <select id="filterSortBy" onchange="applyAdvancedSearch()">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="trending">Trending</option>
+                    </select>
+                </div>
+                <div class="search-filter-group">
+                    <label>Media Type</label>
+                    <select id="filterMediaType" onchange="applyAdvancedSearch()">
+                        <option value="">All Types</option>
+                        <option value="text">Text Only</option>
+                        <option value="image">With Images</option>
+                        <option value="video">With Videos</option>
+                    </select>
+                </div>
+            </div>
+            <div class="advanced-search-actions">
+                <button class="btn-primary" onclick="applyAdvancedSearch()">Apply Filters</button>
+                <button class="btn-secondary" onclick="resetAdvancedSearch()">Reset</button>
+                <button class="btn-close" onclick="toggleAdvancedSearch()">Close</button>
+            </div>
+            <div class="search-results-count" id="searchResultsCount"></div>
+        </div>
+    </div>
+
+    <!-- Top Banner Ad (Leaderboard) -->
+    <div class="ad-container ad-leaderboard">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-space" id="topBannerAd">
+            <!-- EXAMPLE AD - Replace with your own -->
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                        padding: 20px 40px; 
+                        display: flex; 
+                        justify-content: space-between; 
+                        align-items: center; 
+                        border-radius: 8px; 
+                        cursor: pointer;"
+                 onclick="window.open('https://example.com', '_blank')">
+                <div style="color: white;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 24px; font-weight: bold;">🎉 Special Offer - 50% OFF!</h3>
+                    <p style="margin: 0; font-size: 14px; opacity: 0.9;">Limited time offer - Shop now and save big on all items</p>
+                </div>
+                <button style="background: white; 
+                               color: #764ba2; 
+                               border: none; 
+                               padding: 12px 30px; 
+                               border-radius: 25px; 
+                               font-size: 16px; 
+                               font-weight: bold; 
+                               cursor: pointer;
+                               transition: transform 0.2s;"
+                        onmouseover="this.style.transform='scale(1.05)'" 
+                        onmouseout="this.style.transform='scale(1)'">
+                    Shop Now →
+                </button>
+            </div>
+            <!-- TO ADD YOUR OWN AD: Replace everything above with your image:
+            <a href="https://your-website.com" target="_blank">
+                <img src="/uploads/your-ad.jpg" alt="Your Ad" style="width: 100%; height: auto;">
+            </a>
+            -->
+        </div>
+    </div>
+
+    <!-- Hero Section - N12 Style Featured Article -->
+    <div class="hero-section" id="heroSection" style="display: none;">
+        <div class="container">
+            <div class="hero-article" id="heroArticle">
+                <!-- Will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content with Sidebar -->
+    <div class="main-content">
+        <div class="container">
+            <div class="content-wrapper">
+                <!-- Main Content Area -->
+                <div class="main-column">
+                    <div id="loading" class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading articles...</p>
+                    </div>
+                    
+                    <!-- Category Sections -->
+                    <div id="categorySections"></div>
+                    
+                    <div id="noArticles" class="text-center mt-20 hidden">
+                        <div class="empty-state">
+                            <div class="empty-icon">📭</div>
+                            <h3>No articles found</h3>
+                            <p>Check back later for updates</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Load More Button -->
+                    <div id="loadMoreContainer" class="text-center mt-20" style="display: none;">
+                        <button onclick="loadMore()" class="btn btn-primary">Load More Articles</button>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                <!-- Chat with Reporters -->
+                <div class="sidebar-widget">
+                    <div class="chat-widget-header">
+                        <h3 class="widget-title">💬 Chat Reporters</h3>
+                        <button class="chat-expand-btn" onclick="openFullChat()" title="Expand chat">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="chat-container" id="chatMessages" onclick="openFullChat()">
+                        <!-- Chat messages will be loaded here -->
+                    </div>
+                </div>
+
+                    <!-- Newsletter Subscription Widget -->
+                    <div class="sidebar-widget newsletter-widget">
+                        <div class="newsletter-icon">📧</div>
+                        <h3 class="widget-title">Stay Informed</h3>
+                        <p class="newsletter-description">Get daily news digests & breaking alerts</p>
+                        <form id="newsletterForm" onsubmit="subscribeNewsletter(event)" class="newsletter-form">
+                            <input type="email" id="newsletterEmail" placeholder="Enter your email" required class="newsletter-input">
+                            <div class="newsletter-options">
+                                <label class="newsletter-checkbox">
+                                    <input type="checkbox" name="daily" value="daily" checked>
+                                    <span>Daily Digest</span>
+                                </label>
+                                <label class="newsletter-checkbox">
+                                    <input type="checkbox" name="breaking" value="breaking" checked>
+                                    <span>Breaking News</span>
+                                </label>
+                            </div>
+                            <button type="submit" class="newsletter-subscribe-btn">
+                                <span>Subscribe</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </button>
+                        </form>
+                        <p class="newsletter-privacy">🔒 We respect your privacy. Unsubscribe anytime.</p>
+                    </div>
+                    
+                    <!-- Push Notifications Widget -->
+                    <div class="sidebar-widget push-notification-widget" id="pushNotificationWidget">
+                        <div class="notification-icon">🔔</div>
+                        <h3 class="widget-title">Push Notifications</h3>
+                        <p class="notification-description">Get instant alerts for breaking news</p>
+                        <button id="enableNotificationsBtn" class="notification-btn" onclick="subscribeToPushNotifications()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span>Enable Notifications</span>
+                        </button>
+                        <p class="notification-status" id="notificationStatus"></p>
+                    </div>
+                    
+                    <!-- Sidebar Ad #1 -->
+                    <div class="ad-container ad-sidebar">
+                        <div class="ad-label">Advertisement</div>
+                        <div class="ad-space" id="sidebarAd1">
+                            <p>300 x 250</p>
+                            <small>Medium Rectangle Ad</small>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Ad #2 -->
+                    <div class="ad-container ad-sidebar">
+                        <div class="ad-label">Advertisement</div>
+                        <div class="ad-space" id="sidebarAd2">
+                            <p>300 x 600</p>
+                            <small>Half Page Ad</small>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Banner Ad -->
+    <div class="ad-container ad-bottom-banner">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-space" id="bottomBannerAd">
+            <p>728 x 90 Banner Ad Space</p>
+            <small>High visibility placement</small>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 <strong id="footerSiteName">MebratuGobeze</strong>. All rights reserved. | Powered by NewsHub Platform</p>
+        </div>
+    </footer>
+
+    <!-- Full Chat Modal -->
+    <div id="fullChatModal" class="chat-modal">
+        <div class="chat-modal-content">
+            <div class="chat-modal-header">
+                <h2>💬 Chat with Reporters</h2>
+                <button class="chat-modal-close" onclick="closeFullChat()">&times;</button>
+            </div>
+            <div class="chat-modal-body">
+                <div class="chat-container-full" id="chatMessagesFull">
+                    <!-- Chat messages will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome/Entry Popup Ad -->
+    <div id="welcomeAdModal" class="welcome-ad-modal">
+        <div class="welcome-ad-overlay" onclick="closeWelcomeAd()"></div>
+        <div class="welcome-ad-content">
+            <button class="welcome-ad-close" onclick="closeWelcomeAd()" title="Close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="welcome-ad-body">
+                <div class="ad-label">Advertisement</div>
+                <div class="welcome-ad-space" id="welcomeAdSpace">
+                    <h2>Premium Advertisement Space</h2>
+                    <p style="font-size: 18px; margin: 20px 0;">750 x 500 Interstitial Ad</p>
+                    <p style="color: #666;">High-impact placement - First thing visitors see</p>
+                    <div style="margin-top: 30px;">
+                        <button onclick="closeWelcomeAd()" class="btn btn-primary" style="padding: 12px 30px;">Continue to Website →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="translations.js"></script>
+    <script>
+        let currentUser = null;
+        let currentCategory = 'all';
+        let allArticles = [];
+        let displayedArticles = 0;
+        const articlesPerLoad = 20;
+        let videoObserver = null;
+
+        // Check if user is logged in
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/me', {
+                    credentials: 'include'
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    currentUser = data.user;
+                    updateUI();
+                }
+            } catch (error) {
+                console.log('Not logged in');
+            }
+        }
+
+        function updateUI() {
+            const userInfo = document.getElementById('userInfo');
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (currentUser) {
+                // Update top bar user info
+                userInfo.innerHTML = `
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span>Welcome, ${currentUser.username}</span>
+                        <button onclick="logout()" class="btn btn-secondary" style="padding: 5px 15px; font-size: 14px;">Logout</button>
+                    </div>
+                `;
+                
+                // Update side menu login button to show user info and dashboard link
+                loginBtn.outerHTML = `
+                    <div class="menu-section" style="padding: 20px;">
+                        <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">
+                            <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">👤 ${currentUser.username}</div>
+                            <div style="font-size: 13px; color: var(--text-light);">${currentUser.role}</div>
+                        </div>
+                        ${getDashboardLink()}
+                        <button onclick="logout()" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">🚪 Logout</button>
+                    </div>
+                `;
+            } else {
+                userInfo.innerHTML = '';
+                // Ensure login button is visible
+                if (!loginBtn.classList.contains('menu-login-btn')) {
+                    loginBtn.style.display = 'flex';
+                }
+            }
+        }
+
+        function getDashboardLink() {
+            if (currentUser.role === 'superadmin') {
+                return '<a href="/superadmin" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">📊 Super Admin Dashboard</a>';
+            } else if (currentUser.role === 'reporter') {
+                return '<a href="/reporter" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">✍️ Reporter Dashboard</a>';
+            } else if (currentUser.role === 'user') {
+                return '<a href="/user" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">👤 My Profile</a>';
+            }
+            return '';
+        }
+
+        async function logout() {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+            currentUser = null;
+            window.location.href = '/';
+        }
+
+        // Render media based on type (image, video, audio)
+        function renderMedia(article, isHero = false) {
+            const mediaType = article.mediaType || 'image';
+            const mediaUrl = article.mediaUrl || article.imageUrl;
+            const uniqueId = `media-${article.id}-${Date.now()}`;
+            
+            // If no media URL, return empty string (no broken image)
+            if (!mediaUrl) {
+                return '';
+            }
+            
+            if (mediaType === 'video') {
+                return `
+                    <div class="article-media-container">
+                        <div class="video-container">
+                            <video 
+                                class="article-video" 
+                                id="${uniqueId}"
+                                muted 
+                                loop 
+                                playsinline
+                                preload="metadata"
+                                poster="${article.imageUrl}">
+                                <source src="${mediaUrl}" type="video/mp4">
+                                Your browser does not support video.
+                            </video>
+                            <button class="video-fullscreen-btn" onclick="toggleVideoFullscreen(event)" title="Fullscreen">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                                </svg>
+                            </button>
+                            <div class="video-play-overlay"></div>
+                        </div>
+                        <span class="media-type-badge video">📹 Video</span>
+                    </div>
+                `;
+            } else if (mediaType === 'audio') {
+                return `
+                    <div class="article-media-container">
+                        <img src="${article.imageUrl}" alt="${article.title}" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.3;">
+                        <audio 
+                            class="article-audio" 
+                            id="${uniqueId}"
+                            controls 
+                            preload="metadata"
+                            style="position: relative; z-index: 1;">
+                            <source src="${mediaUrl}" type="audio/mpeg">
+                            Your browser does not support audio.
+                        </audio>
+                        <span class="media-type-badge audio">🎵 Audio</span>
+                    </div>
+                `;
+            } else {
+                // Default to image
+                return `<img src="${mediaUrl}" alt="${article.title}">`;
+            }
+        }
+
+        // Setup video autoplay on hover and scroll
+        function setupVideoAutoplay() {
+            // Setup hover autoplay for all videos
+            document.querySelectorAll('.article-video').forEach(video => {
+                const card = video.closest('.article-card, .hero-article');
+                
+                if (card) {
+                    // Play on mouseover
+                    card.addEventListener('mouseenter', () => {
+                        video.play().catch(e => console.log('Play failed:', e));
+                        card.classList.add('video-playing');
+                    });
+                    
+                    // Pause on mouseout
+                    card.addEventListener('mouseleave', () => {
+                        video.pause();
+                        video.currentTime = 0;
+                        card.classList.remove('video-playing');
+                    });
+                }
+            });
+
+            // Setup Intersection Observer for autoplay on scroll
+            if (videoObserver) {
+                videoObserver.disconnect();
+            }
+
+            videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    const card = video.closest('.article-card, .hero-article');
+                    
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                        // Video is 50% visible, play it
+                        video.play().catch(e => console.log('Autoplay failed:', e));
+                        if (card) card.classList.add('video-playing');
+                    } else {
+                        // Video is not visible, pause it
+                        video.pause();
+                        if (card) card.classList.remove('video-playing');
+                    }
+                });
+            }, {
+                threshold: [0, 0.5, 1] // Trigger at 0%, 50%, and 100% visibility
+            });
+
+            // Observe all videos
+            document.querySelectorAll('.article-video').forEach(video => {
+                videoObserver.observe(video);
+            });
+        }
+
+        // Load articles
+        async function loadArticles() {
+            try {
+                const url = currentCategory === 'all' 
+                    ? '/api/articles?status=published' 
+                    : `/api/articles?status=published&category=${currentCategory}`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                // Sort articles by creation date (newest first)
+                allArticles = data.articles.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                // Check for active live streams first
+                await loadActiveLiveStream();
+                
+                // If no active live stream, display hero article (most recent article)
+                const heroSection = document.getElementById('heroSection');
+                if (heroSection.style.display === 'none' && allArticles.length > 0) {
+                    displayHeroArticle(allArticles[0]);
+                }
+                
+                // Load breaking news ticker
+                loadBreakingNews(allArticles);
+                
+                // Display articles by category
+                displayCategorySections();
+                
+                // Load sidebar content
+                loadChatMessages(true);
+                
+            } catch (error) {
+                console.error('Error loading articles:', error);
+                document.getElementById('loading').textContent = 'Error loading articles';
+            }
+        }
+        
+        // Load active live stream
+        async function loadActiveLiveStream() {
+            try {
+                const response = await fetch('/api/livestreams?status=active');
+                const data = await response.json();
+                
+                if (data.liveStreams && data.liveStreams.length > 0) {
+                    // Display the first active live stream
+                    const liveStream = data.liveStreams[0];
+                    displayLiveStreamInHero(liveStream);
+                }
+            } catch (error) {
+                console.error('Error loading live stream:', error);
+            }
+        }
+        
+        // Display live stream in hero section
+        function displayLiveStreamInHero(stream) {
+            const heroSection = document.getElementById('heroSection');
+            const heroArticle = document.getElementById('heroArticle');
+            
+            heroSection.style.display = 'block';
+            
+            // Build live stream badges
+            let liveStreamBadges = '<div class="live-stream-badge">LIVE</div>';
+            
+            if (stream.viewerCount && stream.viewerCount > 0) {
+                liveStreamBadges += `<div class="live-viewer-count">${formatNumber(stream.viewerCount)} watching</div>`;
+            }
+            
+            if (stream.startTime) {
+                const duration = getStreamDuration(stream.startTime);
+                liveStreamBadges += `<div class="live-stream-duration">${duration}</div>`;
+            }
+            
+            const videoHTML = renderLiveStream({ liveStreamUrl: stream.streamUrl });
+            
+            // Control buttons (starts muted for autoplay)
+            const controlsHTML = `
+                <div class="live-stream-controls">
+                    <div class="volume-control">
+                        <button class="live-stream-control-btn" onclick="toggleMute()">
+                            <span id="volumeIcon">🔇</span>
+                        </button>
+                        <div class="volume-slider-container">
+                            <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider" orient="vertical">
+                            <span class="volume-percentage" id="volumePercentage">70%</span>
+                        </div>
+                    </div>
+                    <button class="live-stream-control-btn" onclick="toggleFullscreen()">
+                        <span id="fullscreenIcon">⛶</span>
+                    </button>
+                </div>
+            `;
+            
+            heroArticle.innerHTML = `
+                ${videoHTML}
+                ${liveStreamBadges}
+                <div class="unmute-hint">
+                    🔊 Click video or adjust volume to unmute
+                </div>
+                ${controlsHTML}
+            `;
+            
+            heroArticle.classList.add('overlay-dark');
+            heroArticle.classList.add('live-stream');
+            
+            // Setup autoplay and controls
+            setTimeout(() => {
+                setupVideoAutoplay();
+                setupLiveStreamControls();
+            }, 100);
+        }
+        
+        // Setup live stream controls
+        function setupLiveStreamControls() {
+            const video = document.querySelector('.hero-article.live-stream video');
+            const iframe = document.querySelector('.hero-article.live-stream iframe');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumePercentage = document.getElementById('volumePercentage');
+            const volumeIcon = document.getElementById('volumeIcon');
+            
+            console.log('Setting up controls - Video:', video, 'Iframe:', iframe);
+            
+            // If it's an iframe (YouTube/Vimeo), hide our custom controls since iframe has its own
+            if (iframe && !video) {
+                console.log('Iframe detected - using iframe controls');
+                const controls = document.querySelector('.live-stream-controls');
+                if (controls) controls.style.display = 'none';
+                return;
+            }
+            
+            if (!video || !volumeSlider) {
+                console.log('No video or slider found');
+                return;
+            }
+            
+            console.log('Direct video detected - setting up custom controls');
+            
+            // Video starts muted for autoplay (browser requirement)
+            video.muted = true;
+            video.volume = 0.7;
+            
+            // Click anywhere on video to unmute it
+            video.addEventListener('click', () => {
+                if (video.muted) {
+                    video.muted = false;
+                    video.setAttribute('data-unmuted', 'true');
+                    volumeIcon.textContent = video.volume > 0.5 ? '🔊' : '🔉';
+                    console.log('Video unmuted by click');
+                    
+                    // Hide unmute hint
+                    const hint = document.querySelector('.unmute-hint');
+                    if (hint) hint.style.display = 'none';
+                }
+            });
+            
+            // Volume slider change - UNMUTES the video
+            volumeSlider.addEventListener('input', (e) => {
+                const volume = e.target.value / 100;
+                video.volume = volume;
+                volumePercentage.textContent = e.target.value + '%';
+                
+                console.log('Volume changed to:', volume, 'Muted:', video.muted);
+                
+                // IMPORTANT: Unmute when user adjusts volume
+                if (volume > 0) {
+                    video.muted = false;
+                    video.setAttribute('data-unmuted', 'true');
+                    
+                    // Hide unmute hint
+                    const hint = document.querySelector('.unmute-hint');
+                    if (hint) hint.style.display = 'none';
+                }
+                
+                // Update icon based on volume
+                if (volume === 0) {
+                    volumeIcon.textContent = '🔇';
+                    video.muted = true;
+                } else if (volume < 0.5) {
+                    volumeIcon.textContent = '🔉';
+                } else {
+                    volumeIcon.textContent = '🔊';
+                }
+            });
+        }
+        
+        // Toggle mute/unmute
+        function toggleMute() {
+            const video = document.querySelector('.hero-article.live-stream video');
+            const volumeIcon = document.getElementById('volumeIcon');
+            const volumeSlider = document.getElementById('volumeSlider');
+            
+            console.log('Toggle mute clicked - Video found:', !!video);
+            
+            if (!video) {
+                console.log('No video element found for mute toggle');
+                return;
+            }
+            
+            console.log('Current state - Muted:', video.muted, 'Volume:', video.volume);
+            
+            // Toggle mute state
+            video.muted = !video.muted;
+            
+            console.log('New state - Muted:', video.muted);
+            
+            if (video.muted) {
+                volumeIcon.textContent = '🔇';
+            } else {
+                video.setAttribute('data-unmuted', 'true');
+                
+                // Hide unmute hint
+                const hint = document.querySelector('.unmute-hint');
+                if (hint) hint.style.display = 'none';
+                
+                // When unmuting, ensure volume is not 0
+                if (video.volume === 0 && volumeSlider) {
+                    video.volume = 0.7;
+                    volumeSlider.value = 70;
+                    document.getElementById('volumePercentage').textContent = '70%';
+                    volumeIcon.textContent = '🔊';
+                } else {
+                    const volume = video.volume;
+                    if (volume < 0.5) {
+                        volumeIcon.textContent = '🔉';
+                    } else {
+                        volumeIcon.textContent = '🔊';
+                    }
+                }
+            }
+            
+            // Force play if paused
+            if (video.paused) {
+                video.play().catch(e => console.log('Play after unmute failed:', e));
+            }
+        }
+        
+        // Toggle fullscreen
+        function toggleFullscreen() {
+            const heroArticle = document.querySelector('.hero-article.live-stream');
+            const fullscreenIcon = document.getElementById('fullscreenIcon');
+            
+            if (!heroArticle) return;
+            
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                if (heroArticle.requestFullscreen) {
+                    heroArticle.requestFullscreen();
+                } else if (heroArticle.webkitRequestFullscreen) {
+                    heroArticle.webkitRequestFullscreen();
+                } else if (heroArticle.msRequestFullscreen) {
+                    heroArticle.msRequestFullscreen();
+                }
+                heroArticle.classList.add('fullscreen');
+                fullscreenIcon.textContent = '🗗';
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                heroArticle.classList.remove('fullscreen');
+                fullscreenIcon.textContent = '⛶';
+            }
+        }
+        
+        // Listen for fullscreen changes
+        document.addEventListener('fullscreenchange', () => {
+            const heroArticle = document.querySelector('.hero-article.live-stream');
+            const fullscreenIcon = document.getElementById('fullscreenIcon');
+            if (heroArticle && fullscreenIcon) {
+                if (!document.fullscreenElement) {
+                    heroArticle.classList.remove('fullscreen');
+                    fullscreenIcon.textContent = '⛶';
+                }
+            }
+        });
+
+        // Display hero article
+        function displayHeroArticle(article) {
+            const heroSection = document.getElementById('heroSection');
+            const heroArticle = document.getElementById('heroArticle');
+            
+            // Apply custom colors ONLY to the title text
+            const titleBgStyle = article.bgColor ? `background-color: ${article.bgColor}; padding: 6px 14px; display: inline-block; border-radius: 6px; font-size: 32px; line-height: 1.4;` : 'display: inline-block; font-size: 32px; line-height: 1.4;';
+            const titleColorStyle = article.titleColor ? `color: ${article.titleColor};` : '';
+            const titleStyle = `${titleBgStyle} ${titleColorStyle}`;
+            
+            heroSection.style.display = 'block';
+            
+            // Get hero layout settings from article (with defaults)
+            const textAlign = article.heroTextAlign || 'left';
+            const overlayPosition = article.heroOverlayPosition || 'bottom';
+            const titleSize = article.heroTitleSize || 'medium';
+            const showCategory = article.heroShowCategory !== false;
+            const showSubtitle = article.heroShowSubtitle !== false;
+            const imageOverlay = article.heroImageOverlay || 'dark';
+            
+            // Check if this is a live stream
+            const isLiveStream = article.isLiveStream && article.liveStreamUrl;
+            
+            // Build live stream badges (Facebook style)
+            let liveStreamBadges = '';
+            if (isLiveStream) {
+                liveStreamBadges += '<div class="live-stream-badge">LIVE</div>';
+                
+                // Add viewer count if provided
+                if (article.liveViewerCount && article.liveViewerCount > 0) {
+                    liveStreamBadges += `<div class="live-viewer-count">${formatNumber(article.liveViewerCount)} watching</div>`;
+                }
+                
+                // Add stream duration if start time is provided
+                if (article.liveStreamStartTime) {
+                    const duration = getStreamDuration(article.liveStreamStartTime);
+                    liveStreamBadges += `<div class="live-stream-duration">${duration}</div>`;
+                }
+            }
+            
+            // Build hero HTML with conditional elements based on article settings
+            const categoryHTML = showCategory ? 
+                `<span class="hero-category">${t(article.category.toLowerCase()) || article.category}</span>` : '';
+            
+            const subtitleHTML = showSubtitle ?
+                `<p class="hero-subtitle">${article.content.substring(0, 200)}...</p>` : '';
+            
+            // Render media or live stream
+            const mediaHTML = isLiveStream ? renderLiveStream(article) : renderMedia(article, true);
+            
+            heroArticle.innerHTML = `
+                ${mediaHTML}
+                ${liveStreamBadges}
+                <div class="hero-overlay position-${overlayPosition}" style="text-align: ${textAlign};">
+                    ${categoryHTML}
+                    <div style="margin-top: 8px;">
+                        <h1 class="hero-title size-${titleSize}" style="${titleStyle}">${article.title}</h1>
+                    </div>
+                    ${subtitleHTML}
+                </div>
+            `;
+            
+            // Apply image overlay darkness and live stream class
+            heroArticle.classList.add(`overlay-${imageOverlay}`);
+            if (isLiveStream) {
+                heroArticle.classList.add('live-stream');
+            }
+            
+            heroArticle.onclick = () => viewArticle(article.id);
+            
+            // Setup autoplay for hero video
+            setTimeout(setupVideoAutoplay, 100);
+        }
+        
+        // Render live stream video
+        function renderLiveStream(article) {
+            const streamUrl = article.liveStreamUrl;
+            
+            // Check if it's a YouTube live stream
+            if (streamUrl.includes('youtube.com') || streamUrl.includes('youtu.be')) {
+                const videoId = extractYouTubeId(streamUrl);
+                // YouTube with controls enabled
+                return `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            }
+            
+            // Check if it's a Vimeo live stream
+            if (streamUrl.includes('vimeo.com')) {
+                const videoId = streamUrl.split('/').pop();
+                // Vimeo with controls
+                return `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            }
+            
+            // For HLS streams or direct video URLs
+            return `<video class="live-video" autoplay muted loop playsinline src="${streamUrl}"></video>`;
+        }
+        
+        // Extract YouTube video ID from URL
+        function extractYouTubeId(url) {
+            const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+            return match ? match[1] : '';
+        }
+        
+        // Calculate stream duration
+        function getStreamDuration(startTime) {
+            const start = new Date(startTime);
+            const now = new Date();
+            const diffMs = now - start;
+            const diffMins = Math.floor(diffMs / 60000);
+            
+            if (diffMins < 60) {
+                return `Started ${diffMins} min${diffMins !== 1 ? 's' : ''} ago`;
+            } else {
+                const hours = Math.floor(diffMins / 60);
+                const mins = diffMins % 60;
+                return `Started ${hours}h ${mins}m ago`;
+            }
+        }
+        
+        // Format number with K/M suffix
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        // Load breaking news ticker
+        function loadBreakingNews(articles) {
+            const ticker = document.getElementById('breakingNewsTicker');
+            const breakingNews = articles.slice(0, 5).map(a => a.title).join(' • ');
+            ticker.textContent = breakingNews + ' • ' + breakingNews; // Duplicate for seamless scroll
+        }
+
+        // Display articles grouped by categories
+        function displayCategorySections() {
+            const container = document.getElementById('categorySections');
+            const loading = document.getElementById('loading');
+            const noArticles = document.getElementById('noArticles');
+
+            loading.classList.add('hidden');
+
+            if (allArticles.length === 0) {
+                noArticles.classList.remove('hidden');
+                container.innerHTML = '';
+                return;
+            }
+
+            noArticles.classList.add('hidden');
+
+            // Group articles by category
+            const categories = ['Breaking', 'Political', 'World', 'Technology', 'Sports', 'Business', 'Entertainment'];
+            let html = '';
+
+            categories.forEach(category => {
+                // For "Breaking" section, show latest articles from ALL categories
+                // For other sections, show articles from that specific category only
+                const categoryArticles = category === 'Breaking' 
+                    ? allArticles.slice(0, 7)  // All articles (already sorted by date)
+                    : allArticles.filter(a => a.category === category).slice(0, 7);
+                
+                if (categoryArticles.length > 0) {
+                    const categoryTranslated = t(category.toLowerCase()) || category;
+                    html += `
+                        <div class="category-section" id="section-${category}">
+                            <div class="category-section-header">
+                                <h2 class="category-section-title">${categoryTranslated}</h2>
+                                <a href="#" onclick="filterByCategory('${category}'); return false;" class="view-all-link">${t('viewAll')}</a>
+                            </div>
+                            <div class="articles-grid">
+                                ${categoryArticles.map((article, index) => {
+                                    // Create visual variety:
+                                    // First article: Featured (spans 2 columns, horizontal)
+                                    // Next 4: Standard cards (vertical)
+                                    // Last 2: Compact (horizontal, smaller)
+                                    let cardClass = '';
+                                    let contentLength = 120;
+                                    
+                                    if (index === 0) {
+                                        cardClass = 'featured';
+                                        contentLength = 200;
+                                    } else if (index >= 5) {
+                                        cardClass = 'compact';
+                                        contentLength = 80;
+                                    }
+                                    
+                                    return `
+                                        <div class="article-card ${cardClass}" onclick="viewArticle(${article.id})" style="position: relative;">
+                                            ${renderMedia(article)}
+                                            <div class="article-card-content">
+                                                <span class="article-category">${t(article.category.toLowerCase()) || article.category}</span>
+                                                <h3>${article.title}</h3>
+                                                ${cardClass !== 'compact' ? `<p>${article.content.substring(0, contentLength)}...</p>` : ''}
+                                                ${article.tags && article.tags.length > 0 ? `
+                                                    <div class="article-tags">
+                                                        ${article.tags.slice(0, 3).map(tag => `
+                                                            <span class="article-tag" onclick="event.stopPropagation(); filterByTag('${tag}')">#${tag}</span>
+                                                        `).join('')}
+                                                        ${article.tags.length > 3 ? `<span class="article-tag">+${article.tags.length - 3}</span>` : ''}
+                                                    </div>
+                                                ` : ''}
+                                                <div class="article-meta">
+                                                    <span><strong>${article.author}</strong></span>
+                                                    <span>👁️ ${article.views}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html;
+            
+            // Setup video autoplay after rendering
+            setTimeout(setupVideoAutoplay, 100);
+        }
+
+        // Load chat messages (Trending Now / Live Updates)
+        let lastMessageId = null;
+        let isLoadingChat = false;
+
+        async function loadChatMessages(isInitialLoad = false) {
+            if (isLoadingChat) return;
+            
+            try {
+                isLoadingChat = true;
+                const response = await fetch('/api/chat-messages?limit=15');
+                const data = await response.json();
+                const container = document.getElementById('chatMessages');
+                
+                if (data.messages && data.messages.length > 0) {
+                    // Reverse to show oldest first (like WhatsApp)
+                    const messages = data.messages.reverse();
+                    
+                    // Check if there are new messages
+                    const latestMessageId = messages[messages.length - 1].id;
+                    const hasNewMessages = lastMessageId && latestMessageId !== lastMessageId;
+                    
+                    // Update last message ID
+                    lastMessageId = latestMessageId;
+                    
+                    // Check if user is at bottom before updating
+                    const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
+                    
+                    const messagesHTML = messages.map((msg, index) => {
+                        const time = formatMessageTime(new Date(msg.createdAt));
+                        const isReporter = msg.userRole === 'reporter' || msg.userRole === 'superadmin';
+                        const displayName = msg.userFullName || msg.username;
+                        const initials = getInitials(displayName);
+                        
+                        // Show profile picture if available, otherwise show initials
+                        const avatarContent = msg.profilePicture 
+                            ? `<img src="${msg.profilePicture}" alt="${escapeHtml(displayName)}" class="chat-avatar-img">` 
+                            : initials;
+                        
+                        // Build media content if present
+                        let mediaContent = '';
+                        if (msg.mediaUrl && msg.mediaType) {
+                            if (msg.mediaType === 'image') {
+                                mediaContent = `<img src="${msg.mediaUrl}" alt="Attachment" class="chat-media-image">`;
+                            } else if (msg.mediaType === 'video') {
+                                mediaContent = `
+                                    <div class="video-container">
+                                        <video src="${msg.mediaUrl}" controls class="chat-media-video"></video>
+                                        <button class="video-fullscreen-btn" onclick="toggleVideoFullscreen(event)" title="Fullscreen">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                `;
+                            }
+                        }
+                        
+                        // Add animation class for new messages
+                        const isNewMessage = hasNewMessages && index >= messages.length - 3;
+                        const animationClass = isNewMessage && !isInitialLoad ? 'chat-message-new' : '';
+                        
+                        return `
+                            <div class="chat-message ${isReporter ? 'reporter-message' : 'user-message'} ${animationClass}" data-message-id="${msg.id}">
+                                <div class="chat-message-wrapper">
+                                    <div class="chat-avatar ${msg.userRole}">${avatarContent}</div>
+                                    <div class="chat-message-bubble">
+                                        <span class="chat-display-name">${escapeHtml(displayName)}</span>
+                                        <div class="chat-message-content">${escapeHtml(msg.message)}</div>
+                                        ${mediaContent ? `<div class="chat-media-container">${mediaContent}</div>` : ''}
+                                        <span class="chat-time">${time}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    container.innerHTML = messagesHTML;
+                    
+                    // Scroll to bottom if user was at bottom or if there are new messages
+                    if (isAtBottom || hasNewMessages || isInitialLoad) {
+                        setTimeout(() => {
+                            container.scrollTop = container.scrollHeight;
+                        }, 100);
+                    }
+                    
+                    // Show notification for new messages
+                    if (hasNewMessages && !isInitialLoad) {
+                        showNewMessageNotification();
+                    }
+                } else {
+                    container.innerHTML = '<div class="no-messages">No updates yet</div>';
+                }
+            } catch (error) {
+                console.error('Error loading chat messages:', error);
+                document.getElementById('chatMessages').innerHTML = '<div class="no-messages">Error loading messages</div>';
+            } finally {
+                isLoadingChat = false;
+            }
+        }
+        
+        // Show notification for new messages
+        function showNewMessageNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'new-message-notification';
+            notification.innerHTML = '<i class="fas fa-bell"></i> New update';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // Format message time
+        function formatMessageTime(date) {
+            const now = new Date();
+            const diff = Math.floor((now - date) / 1000); // seconds
+            
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+            
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Get initials from name for avatar
+        function getInitials(name) {
+            if (!name) return '??';
+            const parts = name.trim().split(' ');
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return name.substring(0, 2).toUpperCase();
+        }
+        
+        // Toggle video fullscreen
+        function toggleVideoFullscreen(event) {
+            event.stopPropagation();
+            const button = event.currentTarget;
+            const videoContainer = button.closest('.video-container');
+            const video = videoContainer.querySelector('video');
+            
+            if (!video) return;
+            
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) {
+                    video.msRequestFullscreen();
+                }
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+        
+        // Show fullscreen button when video is playing
+        document.addEventListener('play', function(e) {
+            if (e.target.tagName === 'VIDEO') {
+                const videoContainer = e.target.closest('.video-container');
+                if (videoContainer) {
+                    const button = videoContainer.querySelector('.video-fullscreen-btn');
+                    if (button) {
+                        button.style.opacity = '1';
+                    }
+                }
+            }
+        }, true);
+        
+        // Hide fullscreen button when video is paused (unless hovering)
+        document.addEventListener('pause', function(e) {
+            if (e.target.tagName === 'VIDEO') {
+                const videoContainer = e.target.closest('.video-container');
+                if (videoContainer && !videoContainer.matches(':hover')) {
+                    const button = videoContainer.querySelector('.video-fullscreen-btn');
+                    if (button) {
+                        button.style.opacity = '0';
+                    }
+                }
+            }
+        }, true);
+        
+        // Auto-refresh chat messages every 5 seconds for live updates
+        setInterval(() => loadChatMessages(false), 5000);
+        
+        // Full chat modal functions
+        let fullChatRefreshInterval = null;
+        
+        function openFullChat() {
+            const modal = document.getElementById('fullChatModal');
+            modal.classList.add('active');
+            
+            // Load messages into full chat
+            loadFullChatMessages();
+            
+            // Auto-refresh every 5 seconds while open for live updates
+            fullChatRefreshInterval = setInterval(loadFullChatMessages, 5000);
+        }
+        
+        function closeFullChat() {
+            const modal = document.getElementById('fullChatModal');
+            modal.classList.remove('active');
+            
+            // Stop auto-refresh when closed
+            if (fullChatRefreshInterval) {
+                clearInterval(fullChatRefreshInterval);
+                fullChatRefreshInterval = null;
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('fullChatModal');
+            if (e.target === modal) {
+                closeFullChat();
+            }
+        });
+        
+        // Close modal with Escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('fullChatModal');
+                if (modal.classList.contains('active')) {
+                    closeFullChat();
+                }
+            }
+        });
+        
+        // Load chat messages for full view
+        async function loadFullChatMessages() {
+            try {
+                const response = await fetch('/api/chat-messages?limit=50');
+                const data = await response.json();
+                const container = document.getElementById('chatMessagesFull');
+                
+                if (data.messages && data.messages.length > 0) {
+                    // Reverse to show oldest first
+                    const messages = data.messages.reverse();
+                    
+                    container.innerHTML = messages.map(msg => {
+                        const time = formatMessageTime(new Date(msg.createdAt));
+                        const isReporter = msg.userRole === 'reporter' || msg.userRole === 'superadmin';
+                        const displayName = msg.userFullName || msg.username;
+                        const initials = getInitials(displayName);
+                        
+                        // Show profile picture if available, otherwise show initials
+                        const avatarContent = msg.profilePicture 
+                            ? `<img src="${msg.profilePicture}" alt="${escapeHtml(displayName)}" class="chat-avatar-img">` 
+                            : initials;
+                        
+                        // Build media content if present
+                        let mediaContent = '';
+                        if (msg.mediaUrl && msg.mediaType) {
+                            if (msg.mediaType === 'image') {
+                                mediaContent = `<img src="${msg.mediaUrl}" alt="Attachment" class="chat-media-image">`;
+                            } else if (msg.mediaType === 'video') {
+                                mediaContent = `
+                                    <div class="video-container">
+                                        <video src="${msg.mediaUrl}" controls class="chat-media-video"></video>
+                                        <button class="video-fullscreen-btn" onclick="toggleVideoFullscreen(event)" title="Fullscreen">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                `;
+                            }
+                        }
+                        
+                        return `
+                            <div class="chat-message ${isReporter ? 'reporter-message' : 'user-message'}">
+                                <div class="chat-message-wrapper">
+                                    <div class="chat-avatar ${msg.userRole}">${avatarContent}</div>
+                                    <div class="chat-message-bubble">
+                                            <span class="chat-display-name">${escapeHtml(displayName)}</span>
+                                        <div class="chat-message-content">${escapeHtml(msg.message)}</div>
+                                        ${mediaContent ? `<div class="chat-media-container">${mediaContent}</div>` : ''}
+                                        <span class="chat-time">${time}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    // Scroll to bottom
+                    container.scrollTop = container.scrollHeight;
+                } else {
+                    container.innerHTML = '<div class="no-messages">No updates yet</div>';
+                }
+            } catch (error) {
+                console.error('Error loading full chat messages:', error);
+            }
+        }
+
+        // Scroll to category section
+        function scrollToCategory(category) {
+            const section = document.getElementById(`section-${category}`);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function filterByCategory(category) {
+            currentCategory = category;
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('categorySections').innerHTML = '';
+            
+            // Update active state in navigation
+            updateActiveNavLink(category);
+            
+            loadArticles();
+        }
+        
+        // Update active navigation link
+        function updateActiveNavLink(category) {
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to the clicked category
+            if (category === 'home') {
+                // Find "Home" link
+                navLinks.forEach(link => {
+                    if (link.getAttribute('onclick')?.includes('goToHome')) {
+                        link.classList.add('active');
+                    }
+                });
+            } else if (category === 'all') {
+                // Find "All News" link
+                navLinks.forEach(link => {
+                    if (link.getAttribute('onclick')?.includes("'all'")) {
+                        link.classList.add('active');
+                    }
+                });
+            } else {
+                // Find the specific category link
+                navLinks.forEach(link => {
+                    if (link.getAttribute('onclick')?.includes(`'${category}'`)) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        }
+        
+        // Go to home page (show category sections)
+        function goToHome() {
+            currentCategory = 'all';
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('categorySections').innerHTML = '';
+            
+            // Update active state to Home
+            updateActiveNavLink('home');
+            
+            // Load articles in category sections view
+            loadArticles();
+        }
+
+        function viewArticle(id) {
+            window.location.href = `/article/${id}`;
+        }
+
+        // ========== ADVANCED SEARCH FUNCTIONALITY ==========
+        
+        let searchCache = [];
+        let debounceTimer = null;
+        
+        // Enhanced search with autocomplete
+        async function handleSearch(event) {
+            const searchInput = event.target;
+            const searchTerm = searchInput.value.trim();
+            
+            if (event.key === 'Enter') {
+                performSearch();
+                hideAutocomplete();
+                return;
+            }
+            
+            // Debounce autocomplete
+            clearTimeout(debounceTimer);
+            
+            if (searchTerm.length < 2) {
+                hideAutocomplete();
+                return;
+            }
+            
+            debounceTimer = setTimeout(async () => {
+                await showAutocomplete(searchTerm);
+            }, 300);
+        }
+        
+        // Show autocomplete suggestions
+        async function showAutocomplete(searchTerm) {
+            try {
+                const response = await fetch('/api/articles?status=published');
+                const data = await response.json();
+                
+                const suggestions = data.articles
+                    .filter(article => 
+                        article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        article.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        article.category.toLowerCase().includes(searchTerm.toLowerCase())
+                    )
+                    .slice(0, 5)
+                    .map(article => ({
+                        id: article.id,
+                        title: article.title,
+                        category: article.category,
+                        type: 'article'
+                    }));
+                
+                // Add category suggestions
+                const categories = ['Breaking', 'Political', 'World', 'Technology', 'Sports', 'Business', 'Entertainment', 'Health'];
+                const categorySuggestions = categories
+                    .filter(cat => cat.toLowerCase().includes(searchTerm.toLowerCase()))
+                    .map(cat => ({ title: cat, type: 'category', category: cat }));
+                
+                const allSuggestions = [...suggestions, ...categorySuggestions];
+                
+                if (allSuggestions.length > 0) {
+                    displayAutocomplete(allSuggestions);
+                } else {
+                    hideAutocomplete();
+                }
+            } catch (error) {
+                console.error('Error loading autocomplete:', error);
+            }
+        }
+        
+        // Display autocomplete dropdown
+        function displayAutocomplete(suggestions) {
+            const autocomplete = document.getElementById('searchAutocomplete');
+            autocomplete.innerHTML = suggestions.map(suggestion => {
+                if (suggestion.type === 'article') {
+                    return `
+                        <div class="autocomplete-item" onclick="viewArticle(${suggestion.id}); hideAutocomplete();">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 7h16M4 12h16M4 17h10"/>
+                            </svg>
+                            <div>
+                                <div class="autocomplete-title">${suggestion.title}</div>
+                                <div class="autocomplete-category">${suggestion.category}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="autocomplete-item" onclick="filterByCategory('${suggestion.category}'); hideAutocomplete();">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            <div>
+                                <div class="autocomplete-title">${suggestion.title}</div>
+                                <div class="autocomplete-category">Category</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }).join('');
+            autocomplete.classList.add('active');
+        }
+        
+        // Hide autocomplete
+        function hideAutocomplete() {
+            const autocomplete = document.getElementById('searchAutocomplete');
+            autocomplete.classList.remove('active');
+        }
+        
+        // Close autocomplete when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-box')) {
+                hideAutocomplete();
+            }
+        });
+
+        async function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            
+            if (!searchTerm) {
+                currentCategory = 'all';
+                loadArticles(); // Reload all if empty
+                return;
+            }
+
+            await applyAdvancedSearch();
+        }
+        
+        // Toggle advanced search panel
+        function toggleAdvancedSearch() {
+            const panel = document.getElementById('advancedSearchPanel');
+            panel.classList.toggle('active');
+        }
+        
+        // Apply advanced search with filters
+        async function applyAdvancedSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            const category = document.getElementById('filterCategory').value;
+            const dateRange = document.getElementById('filterDateRange').value;
+            const dateFrom = document.getElementById('filterDateFrom').value;
+            const dateTo = document.getElementById('filterDateTo').value;
+            const sortBy = document.getElementById('filterSortBy').value;
+            const mediaType = document.getElementById('filterMediaType').value;
+            
+            try {
+                const response = await fetch('/api/articles?status=published');
+                const data = await response.json();
+                
+                let filtered = data.articles.filter(article => {
+                    // Text search
+                    const matchesSearch = !searchTerm || 
+                        article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        article.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        article.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        article.author.toLowerCase().includes(searchTerm.toLowerCase());
+                    
+                    // Category filter
+                    const matchesCategory = !category || article.category === category;
+                    
+                    // Date range filter
+                    let matchesDate = true;
+                    const articleDate = new Date(article.createdAt);
+                    const now = new Date();
+                    
+                    if (dateRange === 'today') {
+                        matchesDate = articleDate.toDateString() === now.toDateString();
+                    } else if (dateRange === 'week') {
+                        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        matchesDate = articleDate >= weekAgo;
+                    } else if (dateRange === 'month') {
+                        const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                        matchesDate = articleDate >= monthAgo;
+                    } else if (dateRange === 'custom' && (dateFrom || dateTo)) {
+                        if (dateFrom) matchesDate = articleDate >= new Date(dateFrom);
+                        if (dateTo) matchesDate = matchesDate && articleDate <= new Date(dateTo);
+                    }
+                    
+                    // Media type filter
+                    const matchesMedia = !mediaType || 
+                        (mediaType === 'text' && !article.mediaType) ||
+                        (mediaType === 'image' && article.mediaType === 'image') ||
+                        (mediaType === 'video' && article.mediaType === 'video');
+                    
+                    return matchesSearch && matchesCategory && matchesDate && matchesMedia;
+                });
+                
+                // Sort results
+                if (sortBy === 'newest') {
+                    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                } else if (sortBy === 'oldest') {
+                    filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                } else if (sortBy === 'popular') {
+                    filtered.sort((a, b) => b.views - a.views);
+                } else if (sortBy === 'trending') {
+                    // Trending = high views in recent time
+                    filtered.sort((a, b) => {
+                        const aScore = a.views / (Date.now() - new Date(a.createdAt).getTime());
+                        const bScore = b.views / (Date.now() - new Date(b.createdAt).getTime());
+                        return bScore - aScore;
+                    });
+                }
+
+                allArticles = filtered;
+
+                if (filtered.length > 0) {
+                    displayHeroArticle(filtered[0]);
+                }
+
+                // Update results count
+                const resultsCount = document.getElementById('searchResultsCount');
+                resultsCount.textContent = `Found ${filtered.length} result${filtered.length !== 1 ? 's' : ''}`;
+
+                // Display search results in a single section
+                const container = document.getElementById('categorySections');
+                const searchInfo = searchTerm ? `"${searchTerm}"` : 'All articles';
+                container.innerHTML = `
+                    <div class="category-section">
+                        <div class="category-section-header">
+                            <h2 class="category-section-title">Search Results: ${searchInfo} (${filtered.length})</h2>
+                        </div>
+                        <div class="articles-grid">
+                            ${filtered.slice(1).map((article, index) => {
+                                const isFeatured = (index + 1) % 5 === 0;
+                                const featuredClass = isFeatured ? 'featured' : '';
+                                
+                                return `
+                                    <div class="article-card ${featuredClass}" onclick="viewArticle(${article.id})">
+                                        ${renderMedia(article)}
+                                        <div class="article-card-content">
+                                            <span class="article-category">${t(article.category.toLowerCase()) || article.category}</span>
+                                            <h3>${article.title}</h3>
+                                            <p>${article.content.substring(0, isFeatured ? 200 : 120)}...</p>
+                                            <div class="article-meta">
+                                                <span><strong>${article.author}</strong></span>
+                                                <span>👁️ ${article.views}</span>
+                                                <span>${new Date(article.createdAt).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+
+                // Update sidebar  
+                loadChatMessages(true);
+                
+                // Setup video autoplay for search results
+                setTimeout(setupVideoAutoplay, 100);
+            } catch (error) {
+                console.error('Error searching:', error);
+            }
+        }
+        
+        // Reset advanced search
+        function resetAdvancedSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterCategory').value = '';
+            document.getElementById('filterDateRange').value = '';
+            document.getElementById('filterDateFrom').value = '';
+            document.getElementById('filterDateTo').value = '';
+            document.getElementById('filterSortBy').value = 'newest';
+            document.getElementById('filterMediaType').value = '';
+            document.getElementById('searchResultsCount').textContent = '';
+            document.getElementById('customDateGroup').style.display = 'none';
+            document.getElementById('customDateToGroup').style.display = 'none';
+            
+            currentCategory = 'all';
+            loadArticles();
+        }
+        
+        // Show/hide custom date inputs
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateRangeSelect = document.getElementById('filterDateRange');
+            if (dateRangeSelect) {
+                dateRangeSelect.addEventListener('change', function() {
+                    const customDateGroup = document.getElementById('customDateGroup');
+                    const customDateToGroup = document.getElementById('customDateToGroup');
+                    if (this.value === 'custom') {
+                        customDateGroup.style.display = 'block';
+                        customDateToGroup.style.display = 'block';
+                    } else {
+                        customDateGroup.style.display = 'none';
+                        customDateToGroup.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // ========== TAG FILTERING ==========
+        
+        async function filterByTag(tag) {
+            try {
+                const response = await fetch('/api/articles?status=published');
+                const data = await response.json();
+                
+                const filtered = data.articles.filter(article => 
+                    article.tags && article.tags.includes(tag)
+                ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                allArticles = filtered;
+                
+                if (filtered.length > 0) {
+                    displayHeroArticle(filtered[0]);
+                }
+                
+                // Display search results
+                const container = document.getElementById('categorySections');
+                container.innerHTML = `
+                    <div class="category-section">
+                        <div class="category-section-header">
+                            <h2 class="category-section-title">Articles tagged with #${tag} (${filtered.length})</h2>
+                        </div>
+                        <div class="articles-grid">
+                            ${filtered.slice(1).map((article, index) => {
+                                const isFeatured = (index + 1) % 5 === 0;
+                                const featuredClass = isFeatured ? 'featured' : '';
+                                
+                                return `
+                                    <div class="article-card ${featuredClass}" onclick="viewArticle(${article.id})">
+                                        ${renderMedia(article)}
+                                        <div class="article-card-content">
+                                            <span class="article-category">${t(article.category.toLowerCase()) || article.category}</span>
+                                            <h3>${article.title}</h3>
+                                            <p>${article.content.substring(0, isFeatured ? 200 : 120)}...</p>
+                                            ${article.tags && article.tags.length > 0 ? `
+                                                <div class="article-tags">
+                                                    ${article.tags.slice(0, 3).map(t => `
+                                                        <span class="article-tag" onclick="event.stopPropagation(); filterByTag('${t}')">#${t}</span>
+                                                    `).join('')}
+                                                </div>
+                                            ` : ''}
+                                            <div class="article-meta">
+                                                <span><strong>${article.author}</strong></span>
+                                                <span>👁️ ${article.views}</span>
+                                                <span>${new Date(article.createdAt).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                loadChatMessages(true);
+                setTimeout(setupVideoAutoplay, 100);
+            } catch (error) {
+                console.error('Error filtering by tag:', error);
+            }
+        }
+
+        // ========== NEWSLETTER SUBSCRIPTION ==========
+        
+        async function subscribeNewsletter(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('newsletterEmail').value.trim();
+            const daily = document.querySelector('input[name="daily"]').checked;
+            const breaking = document.querySelector('input[name="breaking"]').checked;
+            
+            if (!email) {
+                showToast('Please enter your email', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/newsletter/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, daily, breaking })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showToast('Successfully subscribed to newsletter!', 'success');
+                    document.getElementById('newsletterForm').reset();
+                } else {
+                    showToast(data.error || 'Subscription failed', 'error');
+                }
+            } catch (error) {
+                console.error('Error subscribing to newsletter:', error);
+                showToast('Error subscribing to newsletter', 'error');
+            }
+        }
+
+        // Initialize
+        // Welcome Ad Modal Functions
+        async function showWelcomeAd() {
+            // Load popup ad from API
+            try {
+                const response = await fetch('/api/ads/active/popup-ad');
+                const data = await response.json();
+                
+                if (data.ad) {
+                    // Ad exists, display it
+                    displayAd(data.ad, 'popup-ad');
+                    // Show modal
+                    document.getElementById('welcomeAdModal').classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                }
+                // If no ad, don't show the popup
+            } catch (error) {
+                console.error('Error loading popup ad:', error);
+            }
+        }
+
+        function closeWelcomeAd() {
+            document.getElementById('welcomeAdModal').classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const welcomeModal = document.getElementById('welcomeAdModal');
+                if (welcomeModal.classList.contains('active')) {
+                    closeWelcomeAd();
+                }
+            }
+        });
+
+        checkAuth();
+        loadArticles();
+
+        // Load site settings
+        fetch('/api/settings')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('siteName').textContent = data.settings.siteName;
+                document.getElementById('footerSiteName').textContent = data.settings.siteName;
+                document.title = `${data.settings.siteName} - Ethiopia News Website`;
+                
+                // Apply article custom colors if set
+                if (data.settings.articleBgColor) {
+                    document.documentElement.style.setProperty('--article-bg-color', data.settings.articleBgColor);
+                }
+                if (data.settings.articleTitleColor) {
+                    document.documentElement.style.setProperty('--article-title-color', data.settings.articleTitleColor);
+                }
+            });
+
+        // Show welcome ad after a short delay
+        setTimeout(() => {
+            showWelcomeAd();
+        }, 500);
+
+        // WhatsApp Share Function
+        function shareOnWhatsApp() {
+            const pageUrl = encodeURIComponent(window.location.href);
+            const pageTitle = encodeURIComponent(document.title);
+            const text = `Check out this news: ${pageTitle}`;
+            const whatsappUrl = `https://wa.me/?text=${text}%20${pageUrl}`;
+            
+            // Check if mobile device
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // On mobile, try to open WhatsApp app
+                window.location.href = whatsappUrl;
+            } else {
+                // On desktop, open WhatsApp Web in new tab
+                window.open(whatsappUrl, '_blank');
+            }
+        }
+
+        // ========== AD MANAGEMENT FUNCTIONS ==========
+
+        // Load ad for specific space
+        async function loadAdForSpace(adSpaceId) {
+            console.log(`🔍 Loading ad for space: ${adSpaceId}`);
+            try {
+                const response = await fetch(`/api/ads/active/${adSpaceId}`);
+                console.log(`📡 API response status for ${adSpaceId}:`, response.status);
+                const data = await response.json();
+                console.log(`📦 API data for ${adSpaceId}:`, data);
+                
+                if (data.ad) {
+                    console.log(`✅ Ad found for ${adSpaceId}:`, data.ad.name);
+                    displayAd(data.ad, adSpaceId);
+                } else {
+                    console.warn(`⚠️ No ad returned for ${adSpaceId}`);
+                }
+            } catch (error) {
+                console.error(`❌ Error loading ad for ${adSpaceId}:`, error);
+            }
+        }
+
+        // Display ad in container
+        function displayAd(ad, adSpaceId) {
+            console.log(`🎨 Displaying ad for ${adSpaceId}...`);
+            
+            // Map ad space IDs to container element IDs
+            const containerIds = {
+                'top-banner': 'topBannerAd',
+                'sidebar-ad-1': 'sidebarAd1',
+                'sidebar-ad-2': 'sidebarAd2',
+                'bottom-banner': 'bottomBannerAd',
+                'popup-ad': 'welcomeAdSpace'
+            };
+            
+            const containerId = containerIds[adSpaceId];
+            console.log(`📍 Container ID for ${adSpaceId}: ${containerId}`);
+            
+            if (!containerId) {
+                console.error(`❌ No container ID mapping for: ${adSpaceId}`);
+                return;
+            }
+            
+            const container = document.getElementById(containerId);
+            console.log(`📦 Container element:`, container);
+            
+            if (!container) {
+                console.error(`❌ Container element not found: ${containerId}`);
+                return;
+            }
+            
+            let adHTML = '';
+            
+            switch(ad.mediaType) {
+                case 'image':
+                    if (ad.linkUrl) {
+                        adHTML = `
+                            <a href="${ad.linkUrl}" target="_blank" onclick="trackAdClick(${ad.id})">
+                                <img src="${ad.mediaUrl}" alt="${ad.name}" style="width: 100%; height: auto; display: block;">
+                            </a>
+                        `;
+                    } else {
+                        adHTML = `<img src="${ad.mediaUrl}" alt="${ad.name}" style="width: 100%; height: auto; display: block;">`;
+                    }
+                    break;
+                    
+                case 'video':
+                    adHTML = `
+                        <video controls autoplay muted style="width: 100%; height: auto; display: block;">
+                            <source src="${ad.mediaUrl}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        ${ad.linkUrl ? `<a href="${ad.linkUrl}" target="_blank" onclick="trackAdClick(${ad.id})" class="btn btn-primary" style="margin-top: 10px;">Learn More</a>` : ''}
+                    `;
+                    break;
+                    
+                case 'audio':
+                    adHTML = `
+                        <audio controls autoplay style="width: 100%;">
+                            <source src="${ad.mediaUrl}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        ${ad.linkUrl ? `<a href="${ad.linkUrl}" target="_blank" onclick="trackAdClick(${ad.id})">Visit Site →</a>` : ''}
+                    `;
+                    break;
+                    
+                case 'html':
+                    adHTML = ad.htmlContent;
+                    break;
+            }
+            
+            console.log(`✏️ Setting container HTML for ${adSpaceId}...`);
+            container.innerHTML = adHTML;
+            console.log(`✅ Ad displayed successfully in ${containerId}!`);
+            
+            // Add click tracking to links if needed
+            if (ad.linkUrl && ad.mediaType === 'html') {
+                const links = container.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', () => trackAdClick(ad.id));
+                });
+            }
+        }
+
+        // Track ad click
+        async function trackAdClick(adId) {
+            try {
+                await fetch(`/api/ads/${adId}/click`, { method: 'POST' });
+            } catch (error) {
+                console.error('Error tracking click:', error);
+            }
+        }
+
+        // Load all ads on page load
+        loadAdForSpace('top-banner');
+        loadAdForSpace('sidebar-ad-1');
+        loadAdForSpace('sidebar-ad-2');
+        loadAdForSpace('bottom-banner');
+        // Note: popup-ad is loaded by showWelcomeAd() function below
+
+        // ========== LOAD AND APPLY SITE SETTINGS ==========
+        async function loadSiteSettings() {
+            try {
+                const response = await fetch('/api/settings');
+                const data = await response.json();
+                const settings = data.settings;
+                
+                // Apply site name
+                const siteName = settings.siteName || 'E1';
+                document.title = `${siteName} - Ethiopia News Website`;
+                
+                // Create initials for E1-style logo (e.g., "MebratuGobeze" -> "MG")
+                const siteNameElement = document.getElementById('siteName');
+                if (siteNameElement) {
+                    // Extract initials from site name (first letters of each word)
+                    const words = siteName.split(' ');
+                    let initials = '';
+                    if (words.length === 1) {
+                        // Single word: take first 2 characters
+                        initials = siteName.substring(0, 2).toUpperCase();
+                    } else {
+                        // Multiple words: take first letter of each word (max 2)
+                        initials = words.slice(0, 2).map(word => word[0]).join('').toUpperCase();
+                    }
+                    siteNameElement.textContent = initials;
+                }
+                
+                // Update footer site name
+                const footerSiteName = document.getElementById('footerSiteName');
+                if (footerSiteName) {
+                    footerSiteName.textContent = siteName;
+                }
+                
+                // Apply tagline
+                if (settings.tagline) {
+                    const taglineElement = document.getElementById('siteTagline');
+                    if (taglineElement) {
+                        taglineElement.textContent = settings.tagline;
+                    }
+                }
+                
+                // Apply logo
+                const logoElement = document.getElementById('siteLogo');
+                if (logoElement) {
+                    if (settings.logo) {
+                        logoElement.src = settings.logo;
+                        logoElement.style.display = 'block';
+                        logoElement.onerror = function() {
+                            this.style.display = 'none';
+                        };
+                    } else {
+                        logoElement.style.display = 'none';
+                    }
+                }
+                
+                // Apply primary color as CSS variable
+                if (settings.primaryColor) {
+                    document.documentElement.style.setProperty('--primary-color', settings.primaryColor);
+                    document.documentElement.style.setProperty('--n12-red', settings.primaryColor);
+                    document.documentElement.style.setProperty('--n12-red-dark', settings.primaryColor);
+                }
+                
+                console.log('✅ Site settings loaded:', settings);
+            } catch (error) {
+                console.error('Error loading site settings:', error);
+            }
+        }
+        
+        // Load settings on page load
+        loadSiteSettings();
+
+        // ========== SIDE MENU TOGGLE ==========
+        function toggleSideMenu() {
+            const sideMenu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('menuOverlay');
+            
+            sideMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (sideMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close menu on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const sideMenu = document.getElementById('sideMenu');
+                const overlay = document.getElementById('menuOverlay');
+                if (sideMenu.classList.contains('active')) {
+                    toggleSideMenu();
+                }
+            }
+        });
+    </script>
+
+    <!-- Theme Customization Controls -->
+    <div class="theme-controls">
+        <button class="theme-control-btn" id="themeToggleBtn" title="Open Theme Settings" onclick="toggleThemePanel()">
+            🎨
+        </button>
+    </div>
+
+    <!-- Theme Panel -->
+    <div class="theme-panel" id="themePanel">
+        <div class="theme-panel-header">
+            <h3>🎨 Customize</h3>
+            <button class="theme-panel-close" onclick="toggleThemePanel()">×</button>
+        </div>
+
+        <!-- Dark Mode -->
+        <div class="theme-section">
+            <h4>🌙 Appearance</h4>
+            <div class="theme-toggle" onclick="toggleDarkMode()">
+                <span class="theme-toggle-label">Dark Mode</span>
+                <div class="toggle-switch" id="darkModeToggle">
+                    <div class="toggle-switch-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Font Size -->
+        <div class="theme-section">
+            <h4>📏 Font Size</h4>
+            <div class="theme-options">
+                <button class="theme-option-btn" data-font="small" onclick="setFontSize('small')">
+                    <span>A</span> Small
+                </button>
+                <button class="theme-option-btn active" data-font="medium" onclick="setFontSize('medium')">
+                    <span>A</span> Medium
+                </button>
+                <button class="theme-option-btn" data-font="large" onclick="setFontSize('large')">
+                    <span>A</span> Large
+                </button>
+            </div>
+        </div>
+
+        <!-- Reading Mode -->
+        <div class="theme-section">
+            <h4>📖 Reading Mode</h4>
+            <div class="theme-toggle" onclick="toggleReadingMode()">
+                <span class="theme-toggle-label">Distraction-free Reading</span>
+                <div class="toggle-switch" id="readingModeToggle">
+                    <div class="toggle-switch-slider"></div>
+                </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-tertiary); margin-top: 10px; padding: 0 15px;">
+                Hides sidebar and navigation for a cleaner reading experience
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Theme Customization JavaScript
+        
+        // Load saved preferences
+        function loadThemePreferences() {
+            const theme = localStorage.getItem('theme') || 'light';
+            const fontSize = localStorage.getItem('fontSize') || 'medium';
+            const readingMode = localStorage.getItem('readingMode') === 'true';
+
+            // Apply theme
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('darkModeToggle').classList.add('active');
+            }
+
+            // Apply font size
+            document.body.className = document.body.className.replace(/font-\w+/g, '');
+            if (fontSize !== 'medium') {
+                document.body.classList.add(`font-${fontSize}`);
+            }
+            document.querySelectorAll('[data-font]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.font === fontSize);
+            });
+
+            // Apply reading mode
+            if (readingMode) {
+                document.body.classList.add('reading-mode');
+                document.getElementById('readingModeToggle').classList.add('active');
+            }
+        }
+
+        // Toggle theme panel
+        function toggleThemePanel() {
+            const panel = document.getElementById('themePanel');
+            panel.classList.toggle('active');
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const toggle = document.getElementById('darkModeToggle');
+            const sunIcon = toggle.querySelector('.sun-icon');
+            const moonIcon = toggle.querySelector('.moon-icon');
+            const isDark = html.getAttribute('data-theme') === 'dark';
+
+            if (isDark) {
+                html.removeAttribute('data-theme');
+                toggle.classList.remove('active');
+                localStorage.setItem('theme', 'light');
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                toggle.classList.add('active');
+                localStorage.setItem('theme', 'dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        }
+
+        // Cycle through font sizes
+        function cycleFontSize() {
+            const sizes = ['small', 'medium', 'large'];
+            const currentSize = localStorage.getItem('fontSize') || 'medium';
+            const currentIndex = sizes.indexOf(currentSize);
+            const nextIndex = (currentIndex + 1) % sizes.length;
+            const nextSize = sizes[nextIndex];
+            
+            setFontSize(nextSize);
+            
+            // Update indicator
+            const indicator = document.querySelector('.font-size-indicator');
+            if (nextSize === 'small') {
+                indicator.style.fontSize = '14px';
+            } else if (nextSize === 'large') {
+                indicator.style.fontSize = '20px';
+            } else {
+                indicator.style.fontSize = '16px';
+            }
+        }
+
+        // Set font size
+        function setFontSize(size) {
+            document.body.className = document.body.className.replace(/font-\w+/g, '');
+            if (size !== 'medium') {
+                document.body.classList.add(`font-${size}`);
+            }
+            
+            document.querySelectorAll('[data-font]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.font === size);
+            });
+            
+            localStorage.setItem('fontSize', size);
+        }
+
+        // Toggle reading mode
+        function toggleReadingMode() {
+            const body = document.body;
+            const toggle = document.getElementById('readingModeToggle');
+            const isActive = body.classList.contains('reading-mode');
+
+            if (isActive) {
+                body.classList.remove('reading-mode');
+                toggle.classList.remove('active');
+                localStorage.setItem('readingMode', 'false');
+            } else {
+                body.classList.add('reading-mode');
+                toggle.classList.add('active');
+                localStorage.setItem('readingMode', 'true');
+            }
+        }
+
+        // Close theme panel when clicking outside
+        document.addEventListener('click', (e) => {
+            const panel = document.getElementById('themePanel');
+            const btn = document.getElementById('themeToggleBtn');
+            
+            if (!panel.contains(e.target) && !btn.contains(e.target)) {
+                panel.classList.remove('active');
+            }
+        });
+
+        // Load theme preferences on page load
+        loadThemePreferences();
+    </script>
+
+    <!-- PWA Install Prompt -->
+    <div id="pwaInstallPrompt" class="pwa-install-prompt">
+        <div class="pwa-prompt-content">
+            <button class="pwa-close-btn" onclick="closePWAPrompt()">×</button>
+            <div class="pwa-icon">📱</div>
+            <h3>Install E1 News App</h3>
+            <p>Get instant access and offline reading</p>
+            <div class="pwa-benefits">
+                <div class="pwa-benefit">✓ Lightning fast</div>
+                <div class="pwa-benefit">✓ Offline access</div>
+                <div class="pwa-benefit">✓ Push notifications</div>
+            </div>
+            <button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPWA()">
+                Install Now
+            </button>
+            <button class="pwa-later-btn" onclick="closePWAPrompt()">Maybe Later</button>
+        </div>
+    </div>
+
+    <script>
+        // ========== PWA & PUSH NOTIFICATIONS ==========
+        
+        // PWA features removed - website only mode
+        
+    </script>
+
+    <script>
+</body>
+</html>
+
