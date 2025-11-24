@@ -4,5 +4,6 @@ node_modules/
 .DS_Store
 uploads/*
 !uploads/.gitkeep
-data/*.json
+# Allow data files for initial setup
+# data/*.json
 !data/.gitkeep

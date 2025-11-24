@@ -1,0 +1,24 @@
+{
+  "siteName": "E1",
+  "tagline": "Breaking News 24/7",
+  "logo": "",
+  "primaryColor": "#d32028",
+  "categories": [
+    "Breaking",
+    "Political",
+    "World",
+    "Technology",
+    "Sports",
+    "Business",
+    "Entertainment",
+    "Health"
+  ],
+  "articleBgColor": "#1d1b1b",
+  "articleTitleColor": "#130101",
+  "heroTextAlign": "left",
+  "heroOverlayPosition": "bottom",
+  "heroTitleSize": "medium",
+  "heroShowCategory": true,
+  "heroShowSubtitle": true,
+  "heroImageOverlay": "dark"
+}

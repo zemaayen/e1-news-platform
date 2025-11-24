@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "username": "superadmin",
+    "password": "$2a$10$3eNuiXBYIN/5n9k0mhEz8.k89gc6LZOpPyxRrvpEwR5zuxUWCK7kO",
+    "role": "superadmin",
+    "email": "superadmin@newshub.com",
+    "fullName": "Mebratu Gobeze",
+    "profilePicture": "/uploads/goodpicture-1763478215711-482869863.jpg",
+    "createdAt": "2025-11-18T14:30:41.001Z"
+  },
+  {
+    "id": 2,
+    "username": "reporter",
+    "password": "$2a$10$UN2KWQ23T1i4anQ2ovkOdOlyz7Dvss494kh6KaMRShvhhA2Xg2uji",
+    "role": "reporter",
+    "email": "reporter@newshub.com",
+    "fullName": "Sarah Johnson",
+    "profilePicture": null,
+    "createdAt": "2025-11-18T14:30:41.001Z"
+  },
+  {
+    "id": 3,
+    "username": "user",
+    "password": "$2a$10$ZHJezfRo13v5kIzPchNdY.HlM0Wi0CWybUvlm9RbwYo60144Pbkdi",
+    "role": "user",
+    "email": "user@newshub.com",
+    "fullName": "Regular User",
+    "profilePicture": null,
+    "createdAt": "2025-11-18T14:30:41.001Z"
+  },
+  {
+    "id": 4,
+    "username": "Mebratu",
+    "email": "Zemaayen@gmail.com",
+    "password": "$2a$10$nixUQzB5ngk6tKXtbgNPpuSev2CUDrjuIdzlMOdwFLZyrf7bo2BDu",
+    "role": "reporter",
+    "fullName": "Mebratu Gobeze",
+    "profilePicture": "/uploads/11.png-1763477991970-769993730.jpg",
+    "createdAt": "2025-11-18T14:59:52.157Z"
+  }
+]

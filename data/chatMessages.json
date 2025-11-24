@@ -1,0 +1,122 @@
+[
+  {
+    "id": 7,
+    "userId": 1,
+    "username": "superadmin",
+    "userRole": "superadmin",
+    "userFullName": "Admin Team",
+    "profilePicture": null,
+    "message": "Store and Foreword bug",
+    "mediaType": "video",
+    "mediaUrl": "/uploads/Bug_S$F-1763478133388-822836430.mp4",
+    "createdAt": "2025-11-18T15:02:13.417Z"
+  },
+  {
+    "id": 6,
+    "userId": 1,
+    "username": "superadmin",
+    "userRole": "superadmin",
+    "userFullName": "Admin Team",
+    "profilePicture": null,
+    "message": "Liveu Hackaton",
+    "mediaType": "image",
+    "mediaUrl": "/uploads/liveuHackaton-1763478104379-337673421.jpg",
+    "createdAt": "2025-11-18T15:01:44.384Z"
+  },
+  {
+    "id": 5,
+    "userId": 1,
+    "username": "superadmin",
+    "userRole": "superadmin",
+    "userFullName": "Admin Team",
+    "profilePicture": null,
+    "message": "በኢትዮጵያ የተፈጠረ አዲስ የስልክ ቴክኖሎጂ ዓለምአቀፍ ትኩረት ተቀባ\nአዲስ አበባ፣ ኢትዮጵያ — በኢትዮጵያ የቴክኖሎጂ ተወዳዳሪዎች የተንደፈው አዲስ የስልክ ቴክኖሎጂ በአለም ዙሪያ የቴክ ኩባንያዎች ትኩረት ጀመር ማግኘት። ይህ ቴክኖሎጂ የባትሪ አለመሙላትን 50% በመቀነስ እና የመስመር ላይ ግንኙነትን በከፍተኛ ደረጃ በማሻሻል የሚታወቅ መሆኑ ተገልጿል።\n\nየቴክኖሎጂው ሙከራ በአዲስ አበባ ተካሂዶ በየቀኑ ተጠቃሚዎች አስተያየት መሰብሰብ ይቀጥላል። ባለሙያዎች ይህ እድገት አገሪቱ በአፍሪካ ውስጥ የቴክ ልማት መሪ እንዲሆን የሚያግዝ መሆኑን ተናግረዋል።",
+    "mediaType": null,
+    "mediaUrl": null,
+    "createdAt": "2025-11-18T15:01:10.930Z"
+  },
+  {
+    "id": 4,
+    "userId": 1,
+    "username": "superadmin",
+    "userRole": "superadmin",
+    "userFullName": "Admin Team",
+    "profilePicture": null,
+    "message": "በአዲስ አበባ የኤሌክትሪክ ባቡር ሙከራ በተሳካ ሁኔታ ተከናወነ",
+    "mediaType": null,
+    "mediaUrl": null,
+    "createdAt": "2025-11-18T15:00:25.313Z"
+  },
+  {
+    "id": 3,
+    "userId": 1,
+    "username": "superadmin",
+    "userRole": "superadmin",
+    "userFullName": "Admin Team",
+    "profilePicture": null,
+    "message": "Stay tuned for exclusive coverage! 📺",
+    "mediaType": null,
+    "mediaUrl": null,
+    "createdAt": "2025-11-18T14:25:41.002Z"
+  },
+  {
+    "id": 2,
+    "userId": 2,
+    "username": "reporter",
+    "userRole": "reporter",
+    "userFullName": "Sarah Johnson",
+    "profilePicture": null,
+    "message": "Live updates: Press conference starting in 10 minutes",
+    "mediaType": null,
+    "mediaUrl": null,
+    "createdAt": "2025-11-18T14:15:41.002Z"
+  },
+  {
+    "id": 1,
+    "userId": 2,
+    "username": "reporter",
+    "userRole": "reporter",
+    "userFullName": "Sarah Johnson",
+    "profilePicture": null,
+    "message": "Breaking: Major event unfolding at the capital! 🔥",
+    "mediaType": null,
+    "mediaUrl": null,
+    "createdAt": "2025-11-18T14:00:41.002Z"
+  },
+  {
+    "id": 8,
+    "userId": 4,
+    "username": "Mebratu",
+    "userRole": "reporter",
+    "userFullName": "Mebratu Gobeze",
+    "profilePicture": "/uploads/11.png-1763477991970-769993730.jpg",
+    "message": "በአዲስ አበባ የኤሌክትሪክ ባቡር ሙከራ በተሳካ ሁኔታ ተከናወነ",
+    "mediaType": null,
+    "mediaUrl": null,
+    "createdAt": "2025-11-18T15:05:54.480Z"
+  },
+  {
+    "id": 9,
+    "userId": 1,
+    "username": "superadmin",
+    "userRole": "superadmin",
+    "userFullName": "Mebratu Gobeze",
+    "profilePicture": "/uploads/goodpicture-1763478215711-482869863.jpg",
+    "message": "Aschalegn is in Jaffo",
+    "mediaType": null,
+    "mediaUrl": null,
+    "createdAt": "2025-11-20T19:23:38.545Z"
+  },
+  {
+    "id": 10,
+    "userId": 1,
+    "username": "superadmin",
+    "userRole": "superadmin",
+    "userFullName": "Mebratu Gobeze",
+    "profilePicture": "/uploads/goodpicture-1763478215711-482869863.jpg",
+    "message": "sdfdfdsfdf",
+    "mediaType": "image",
+    "mediaUrl": "/uploads/downloadadis-1763666766773-695013979.jpeg",
+    "createdAt": "2025-11-20T19:26:06.778Z"
+  }
+]

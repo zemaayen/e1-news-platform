@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "articleId": 1,
+    "userId": 3,
+    "username": "user",
+    "content": "Very interesting article! Thanks for sharing.",
+    "createdAt": "2025-11-18T13:27:09.795Z"
+  },
+  {
+    "id": 2,
+    "articleId": 1,
+    "userId": null,
+    "username": "John Doe",
+    "content": "Testing persistence! This comment should survive server restarts!",
+    "createdAt": "2025-11-18T14:28:03.537Z"
+  },
+  {
+    "id": 3,
+    "articleId": 4,
+    "userId": null,
+    "username": "John Doe",
+    "content": "Greate\n",
+    "createdAt": "2025-11-18T14:58:15.281Z"
+  }
+]
