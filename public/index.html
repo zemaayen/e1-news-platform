@@ -339,66 +339,20 @@
                 
                 <!-- Sidebar -->
                 <aside class="sidebar">
-                <!-- Chat with Reporters -->
-                <div class="sidebar-widget">
-                    <div class="chat-widget-header">
-                        <h3 class="widget-title">💬 Chat Reporters</h3>
-                        <button class="chat-expand-btn" onclick="openFullChat()" title="Expand chat">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                            </svg>
-                        </button>
+                    
+                    <!-- Chat Reporters Widget -->
+                    <div class="widget chat-widget">
+                        <div class="widget-header chat-widget-header">
+                            <h3>💬 Chat Reporters</h3>
+                        </div>
+                        <div class="chat-container" id="chatMessages">
+                            <!-- Chat messages will be loaded here -->
+                            <p style="text-align: center; color: #666; margin-top: 20px;">Chat functionality coming soon!</p>
+                        </div>
                     </div>
-                    <div class="chat-container" id="chatMessages" onclick="openFullChat()">
-                        <!-- Chat messages will be loaded here -->
-                    </div>
-                </div>
 
-                    <!-- Newsletter Subscription Widget -->
-                    <div class="sidebar-widget newsletter-widget">
-                        <div class="newsletter-icon">📧</div>
-                        <h3 class="widget-title">Stay Informed</h3>
-                        <p class="newsletter-description">Get daily news digests & breaking alerts</p>
-                        <form id="newsletterForm" onsubmit="subscribeNewsletter(event)" class="newsletter-form">
-                            <input type="email" id="newsletterEmail" placeholder="Enter your email" required class="newsletter-input">
-                            <div class="newsletter-options">
-                                <label class="newsletter-checkbox">
-                                    <input type="checkbox" name="daily" value="daily" checked>
-                                    <span>Daily Digest</span>
-                                </label>
-                                <label class="newsletter-checkbox">
-                                    <input type="checkbox" name="breaking" value="breaking" checked>
-                                    <span>Breaking News</span>
-                                </label>
-                            </div>
-                            <button type="submit" class="newsletter-subscribe-btn">
-                                <span>Subscribe</span>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </button>
-                        </form>
-                        <p class="newsletter-privacy">🔒 We respect your privacy. Unsubscribe anytime.</p>
-                    </div>
-                    
-                    <!-- Push Notifications Widget -->
-                    <div class="sidebar-widget push-notification-widget" id="pushNotificationWidget">
-                        <div class="notification-icon">🔔</div>
-                        <h3 class="widget-title">Push Notifications</h3>
-                        <p class="notification-description">Get instant alerts for breaking news</p>
-                        <button id="enableNotificationsBtn" class="notification-btn" onclick="subscribeToPushNotifications()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                            </svg>
-                            <span>Enable Notifications</span>
-                        </button>
-                        <p class="notification-status" id="notificationStatus"></p>
-                    </div>
-                    
                     <!-- Sidebar Ad #1 -->
-                    <div class="ad-container ad-sidebar">
+                    <div class="ad-container ad-sidebar floating-ad">
                         <div class="ad-label">Advertisement</div>
                         <div class="ad-space" id="sidebarAd1">
                             <p>300 x 250</p>
@@ -407,7 +361,7 @@
                     </div>
 
                     <!-- Sidebar Ad #2 -->
-                    <div class="ad-container ad-sidebar">
+                    <div class="ad-container ad-sidebar floating-ad">
                         <div class="ad-label">Advertisement</div>
                         <div class="ad-space" id="sidebarAd2">
                             <p>300 x 600</p>
@@ -1989,9 +1943,10 @@
             });
 
         // Show welcome ad after a short delay
-        setTimeout(() => {
-            showWelcomeAd();
-        }, 500);
+        // Disabled by user request - popup ad on page load
+        // setTimeout(() => {
+        //     showWelcomeAd();
+        // }, 500);
 
         // WhatsApp Share Function
         function shareOnWhatsApp() {
@@ -2231,61 +2186,7 @@
         });
     </script>
 
-    <!-- Theme Customization Controls -->
-    <div class="theme-controls">
-        <button class="theme-control-btn" id="themeToggleBtn" title="Open Theme Settings" onclick="toggleThemePanel()">
-            🎨
-        </button>
-    </div>
 
-    <!-- Theme Panel -->
-    <div class="theme-panel" id="themePanel">
-        <div class="theme-panel-header">
-            <h3>🎨 Customize</h3>
-            <button class="theme-panel-close" onclick="toggleThemePanel()">×</button>
-        </div>
-
-        <!-- Dark Mode -->
-        <div class="theme-section">
-            <h4>🌙 Appearance</h4>
-            <div class="theme-toggle" onclick="toggleDarkMode()">
-                <span class="theme-toggle-label">Dark Mode</span>
-                <div class="toggle-switch" id="darkModeToggle">
-                    <div class="toggle-switch-slider"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Font Size -->
-        <div class="theme-section">
-            <h4>📏 Font Size</h4>
-            <div class="theme-options">
-                <button class="theme-option-btn" data-font="small" onclick="setFontSize('small')">
-                    <span>A</span> Small
-                </button>
-                <button class="theme-option-btn active" data-font="medium" onclick="setFontSize('medium')">
-                    <span>A</span> Medium
-                </button>
-                <button class="theme-option-btn" data-font="large" onclick="setFontSize('large')">
-                    <span>A</span> Large
-                </button>
-            </div>
-        </div>
-
-        <!-- Reading Mode -->
-        <div class="theme-section">
-            <h4>📖 Reading Mode</h4>
-            <div class="theme-toggle" onclick="toggleReadingMode()">
-                <span class="theme-toggle-label">Distraction-free Reading</span>
-                <div class="toggle-switch" id="readingModeToggle">
-                    <div class="toggle-switch-slider"></div>
-                </div>
-            </div>
-            <p style="font-size: 0.85rem; color: var(--text-tertiary); margin-top: 10px; padding: 0 15px;">
-                Hides sidebar and navigation for a cleaner reading experience
-            </p>
-        </div>
-    </div>
 
     <script>
         // Theme Customization JavaScript
@@ -2347,6 +2248,13 @@
             }
         }
 
+        // Toggle Newsletter Panel
+        function toggleNewsletterPanel() {
+            const panel = document.getElementById('newsletterPanel');
+            panel.classList.toggle('active');
+        }
+
+        // Toggle Chat Panel
         // Cycle through font sizes
         function cycleFontSize() {
             const sizes = ['small', 'medium', 'large'];
