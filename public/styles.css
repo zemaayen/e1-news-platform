@@ -2864,6 +2864,55 @@ html {
     z-index: 2;
 }
 
+/* Article media placeholder (when no image) */
+.article-media-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 40px 20px;
+    min-height: 250px;
+    color: #6c757d;
+}
+
+.article-media-placeholder svg {
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.article-media-placeholder p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+/* Article media error */
+.article-media-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff3cd;
+    color: #856404;
+    padding: 40px 20px;
+    min-height: 200px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Article card with no image */
+.article-card.no-image {
+    border-top: 4px solid var(--n12-red);
+}
+
+.article-card.no-image .article-card-content {
+    padding-top: 25px;
+}
+
 .article-card::before {
     content: '';
     position: absolute;

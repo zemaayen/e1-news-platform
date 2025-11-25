@@ -60,35 +60,6 @@
             <div class="top-bar-right">
                 <div id="userInfo"></div>
                 
-                <!-- Theme Customization Controls -->
-                <div class="theme-controls">
-                    <button class="theme-btn" id="darkModeToggle" title="Toggle Dark Mode" onclick="toggleDarkMode()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sun-icon">
-                            <circle cx="12" cy="12" r="5"/>
-                            <line x1="12" y1="1" x2="12" y2="3"/>
-                            <line x1="12" y1="21" x2="12" y2="23"/>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                            <line x1="1" y1="12" x2="3" y2="12"/>
-                            <line x1="21" y1="12" x2="23" y2="12"/>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                        </svg>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="moon-icon" style="display: none;">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                        </svg>
-                    </button>
-                    <button class="theme-btn" id="fontSizeToggle" title="Font Size" onclick="cycleFontSize()">
-                        <span class="font-size-indicator">A</span>
-                    </button>
-                    <button class="theme-btn" id="readingModeToggle" title="Toggle Reading Mode" onclick="toggleReadingMode()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                        </svg>
-                    </button>
-                </div>
-                
                 <div class="language-switcher">
                     <button class="lang-btn active" data-lang="en" title="English">EN</button>
                     <button class="lang-btn" data-lang="am" title="አማርኛ">አማ</button>
@@ -604,12 +575,22 @@
             const mediaUrl = article.mediaUrl || article.imageUrl;
             const uniqueId = `media-${article.id}-${Date.now()}`;
             
-            // If no media URL, return empty string (no broken image)
+            // If no media URL, return placeholder
             if (!mediaUrl) {
-                return '';
+                return `
+                    <div class="article-media-placeholder">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                        <p>No image</p>
+                    </div>
+                `;
             }
             
             if (mediaType === 'video') {
+                const posterAttr = article.imageUrl ? `poster="${article.imageUrl}"` : '';
                 return `
                     <div class="article-media-container">
                         <div class="video-container">
@@ -620,7 +601,8 @@
                                 loop 
                                 playsinline
                                 preload="metadata"
-                                poster="${article.imageUrl}">
+                                ${posterAttr}
+                                onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;article-media-error&quot;>Video unavailable</div>';">
                                 <source src="${mediaUrl}" type="video/mp4">
                                 Your browser does not support video.
                             </video>
@@ -635,9 +617,12 @@
                     </div>
                 `;
             } else if (mediaType === 'audio') {
+                const backgroundImg = article.imageUrl 
+                    ? `<img src="${article.imageUrl}" alt="${article.title}" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.3;" onerror="this.style.display='none';">` 
+                    : '<div style="position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>';
                 return `
                     <div class="article-media-container">
-                        <img src="${article.imageUrl}" alt="${article.title}" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.3;">
+                        ${backgroundImg}
                         <audio 
                             class="article-audio" 
                             id="${uniqueId}"
@@ -651,8 +636,8 @@
                     </div>
                 `;
             } else {
-                // Default to image
-                return `<img src="${mediaUrl}" alt="${article.title}">`;
+                // Default to image with error handling
+                return `<img src="${mediaUrl}" alt="${article.title}" onerror="this.onerror=null; this.src=''; this.style.display='none'; this.parentElement.classList.add('no-image');">`;
             }
         }
 
@@ -2180,23 +2165,17 @@
                 // Remove from DOM after animation
                 setTimeout(() => {
                     adContainer.classList.add('ad-closed');
-                    // Store closed ad preference (optional)
-                    localStorage.setItem(`ad_closed_${adContainerId}`, 'true');
+                    // Ad will reappear on page refresh (not stored in localStorage)
                 }, 300);
             }
         }
         
         // Check for previously closed ads on page load
+        // Ads now show fresh on every page load/refresh
+        // Users can close ads temporarily, but they reappear on refresh
         document.addEventListener('DOMContentLoaded', function() {
-            const adContainers = ['topAdContainer', 'sidebarAdContainer1', 'sidebarAdContainer2', 'bottomAdContainer'];
-            adContainers.forEach(containerId => {
-                if (localStorage.getItem(`ad_closed_${containerId}`) === 'true') {
-                    const container = document.getElementById(containerId);
-                    if (container) {
-                        container.classList.add('ad-closed');
-                    }
-                }
-            });
+            // All ads will be visible by default on page load
+            console.log('Ads loaded fresh - close buttons available for temporary dismissal');
         });
 
         // ========== AD MANAGEMENT FUNCTIONS ==========
@@ -2423,134 +2402,13 @@
     <script>
         // Theme Customization JavaScript
         
-        // Load saved preferences
-        function loadThemePreferences() {
-            const theme = localStorage.getItem('theme') || 'light';
-            const fontSize = localStorage.getItem('fontSize') || 'medium';
-            const readingMode = localStorage.getItem('readingMode') === 'true';
-
-            // Apply theme
-            if (theme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                document.getElementById('darkModeToggle').classList.add('active');
-            }
-
-            // Apply font size
-            document.body.className = document.body.className.replace(/font-\w+/g, '');
-            if (fontSize !== 'medium') {
-                document.body.classList.add(`font-${fontSize}`);
-            }
-            document.querySelectorAll('[data-font]').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.font === fontSize);
-            });
-
-            // Apply reading mode
-            if (readingMode) {
-                document.body.classList.add('reading-mode');
-                document.getElementById('readingModeToggle').classList.add('active');
-            }
-        }
-
-        // Toggle theme panel
-        function toggleThemePanel() {
-            const panel = document.getElementById('themePanel');
-            panel.classList.toggle('active');
-        }
-
-        // Toggle dark mode
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            const toggle = document.getElementById('darkModeToggle');
-            const sunIcon = toggle.querySelector('.sun-icon');
-            const moonIcon = toggle.querySelector('.moon-icon');
-            const isDark = html.getAttribute('data-theme') === 'dark';
-
-            if (isDark) {
-                html.removeAttribute('data-theme');
-                toggle.classList.remove('active');
-                localStorage.setItem('theme', 'light');
-                sunIcon.style.display = 'block';
-                moonIcon.style.display = 'none';
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                toggle.classList.add('active');
-                localStorage.setItem('theme', 'dark');
-                sunIcon.style.display = 'none';
-                moonIcon.style.display = 'block';
-            }
-        }
-
+        // Theme controls have been removed for cleaner interface
+        
         // Toggle Newsletter Panel
         function toggleNewsletterPanel() {
             const panel = document.getElementById('newsletterPanel');
             panel.classList.toggle('active');
         }
-
-        // Toggle Chat Panel
-        // Cycle through font sizes
-        function cycleFontSize() {
-            const sizes = ['small', 'medium', 'large'];
-            const currentSize = localStorage.getItem('fontSize') || 'medium';
-            const currentIndex = sizes.indexOf(currentSize);
-            const nextIndex = (currentIndex + 1) % sizes.length;
-            const nextSize = sizes[nextIndex];
-            
-            setFontSize(nextSize);
-            
-            // Update indicator
-            const indicator = document.querySelector('.font-size-indicator');
-            if (nextSize === 'small') {
-                indicator.style.fontSize = '14px';
-            } else if (nextSize === 'large') {
-                indicator.style.fontSize = '20px';
-            } else {
-                indicator.style.fontSize = '16px';
-            }
-        }
-
-        // Set font size
-        function setFontSize(size) {
-            document.body.className = document.body.className.replace(/font-\w+/g, '');
-            if (size !== 'medium') {
-                document.body.classList.add(`font-${size}`);
-            }
-            
-            document.querySelectorAll('[data-font]').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.font === size);
-            });
-            
-            localStorage.setItem('fontSize', size);
-        }
-
-        // Toggle reading mode
-        function toggleReadingMode() {
-            const body = document.body;
-            const toggle = document.getElementById('readingModeToggle');
-            const isActive = body.classList.contains('reading-mode');
-
-            if (isActive) {
-                body.classList.remove('reading-mode');
-                toggle.classList.remove('active');
-                localStorage.setItem('readingMode', 'false');
-            } else {
-                body.classList.add('reading-mode');
-                toggle.classList.add('active');
-                localStorage.setItem('readingMode', 'true');
-            }
-        }
-
-        // Close theme panel when clicking outside
-        document.addEventListener('click', (e) => {
-            const panel = document.getElementById('themePanel');
-            const btn = document.getElementById('themeToggleBtn');
-            
-            if (!panel.contains(e.target) && !btn.contains(e.target)) {
-                panel.classList.remove('active');
-            }
-        });
-
-        // Load theme preferences on page load
-        loadThemePreferences();
     </script>
 
     <!-- PWA Install Prompt -->
