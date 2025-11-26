@@ -12,6 +12,12 @@
     <meta name="theme-color" content="#e30613">
     <meta name="msapplication-TileColor" content="#e30613">
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -2431,9 +2437,89 @@
     </div>
 
     <script>
-        // ========== PWA & PUSH NOTIFICATIONS ==========
+        // ========== PWA & SERVICE WORKER ==========
         
-        // PWA features removed - website only mode
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registered:', registration.scope);
+                        
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New content available, show update notification
+                                    console.log('🔄 New content available! Refresh to update.');
+                                }
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('❌ Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show custom install button
+            const installBtn = document.getElementById('pwaInstallBtn');
+            const pwaPrompt = document.querySelector('.pwa-install-prompt');
+            
+            if (pwaPrompt && !localStorage.getItem('pwa-dismissed')) {
+                pwaPrompt.style.display = 'block';
+            }
+        });
+
+        function installPWA() {
+            const pwaPrompt = document.querySelector('.pwa-install-prompt');
+            if (pwaPrompt) pwaPrompt.style.display = 'none';
+            
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('✅ User accepted the install prompt');
+                    } else {
+                        console.log('❌ User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        function closePWAPrompt() {
+            const pwaPrompt = document.querySelector('.pwa-install-prompt');
+            if (pwaPrompt) pwaPrompt.style.display = 'none';
+            localStorage.setItem('pwa-dismissed', 'true');
+        }
+
+        // Track app install
+        window.addEventListener('appinstalled', () => {
+            console.log('✅ E1 News App installed successfully!');
+            deferredPrompt = null;
+        });
+
+        // ========== PUSH NOTIFICATIONS (to be implemented) ==========
+        async function requestNotificationPermission() {
+            if ('Notification' in window && 'serviceWorker' in navigator) {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    console.log('✅ Notification permission granted');
+                    // Subscribe to push notifications (backend integration needed)
+                } else {
+                    console.log('❌ Notification permission denied');
+                }
+            }
+        }
         
     </script>
 
