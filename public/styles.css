@@ -2836,8 +2836,10 @@ html {
     margin-top: 45px;
     position: relative;
     z-index: 2;
-    grid-auto-rows: 380px;
-    align-items: stretch;
+    /* Allow cards to have their natural height - no forced row height */
+    grid-auto-rows: auto;
+    /* Don't stretch cards - let them size based on content */
+    align-items: start;
 }
 
 /* Standard Article Card */
@@ -2854,11 +2856,8 @@ html {
     border: 1px solid var(--border-light);
     will-change: transform, box-shadow;
     width: 100%;
-    height: 100%;
-    aspect-ratio: 1 / 1;
-    min-height: 380px;
-    max-height: 380px;
-    min-width: 380px;
+    /* Cards with images will be 380px, cards without images will be auto */
+    height: 380px;
     max-width: 380px;
     backdrop-filter: blur(10px);
     z-index: 2;
@@ -2880,93 +2879,76 @@ html {
     font-size: 14px;
 }
 
-/* Article card with no image - completely remove all fixed dimensions and flex distribution */
+/* Article card with no image - content-based height, no stretching */
 .article-card.no-image,
 .article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) {
+    /* Visual indicator */
     border-top: 3px solid var(--n12-red);
+    /* Content-based height */
     height: auto !important;
     min-height: unset !important;
     max-height: none !important;
-    aspect-ratio: unset !important;
-    /* Remove flex distribution - let content stack naturally */
-    justify-content: flex-start !important;
+    /* Stack content from top */
+    justify-content: flex-start;
 }
 
 .article-card.no-image .article-card-content,
 .article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-card-content {
-    padding: 18px 16px 16px 16px;
+    padding: 20px 16px 16px 16px;
+    /* Content-based sizing - no flex growth */
+    flex: 0 0 auto !important;
     min-height: unset !important;
     max-height: none !important;
     height: auto !important;
-    /* Remove flex-grow - don't stretch to fill */
-    flex: none !important;
-    flex-grow: 0 !important;
-    flex-shrink: 0 !important;
-    /* Use gap for spacing instead of margin-top: auto */
-    gap: 8px;
 }
 
-/* Remove margin-top: auto from metadata - keep it directly under description */
+/* Metadata directly under content - no auto margin push */
 .article-card.no-image .article-meta,
 .article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-meta {
-    margin-top: 8px !important;
+    margin-top: 10px !important;
 }
 
 /* Featured cards without images */
 .article-card.featured.no-image,
 .article-card.featured:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) {
     height: auto !important;
-    min-height: unset !important;
-    max-height: none !important;
-    aspect-ratio: unset !important;
-    justify-content: flex-start !important;
+    justify-content: flex-start;
 }
 
 .article-card.featured.no-image .article-card-content,
 .article-card.featured:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-card-content {
+    flex: 0 0 auto !important;
     min-height: unset !important;
     max-height: none !important;
-    height: auto !important;
-    flex: none !important;
 }
 
 .article-card.featured.no-image .article-meta,
 .article-card.featured:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-meta {
-    margin-top: 8px !important;
+    margin-top: 10px !important;
 }
 
 /* Compact cards without images */
 .article-card.compact.no-image,
 .article-card.compact:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) {
     height: auto !important;
-    min-height: unset !important;
-    max-height: none !important;
-    aspect-ratio: unset !important;
-    justify-content: flex-start !important;
+    justify-content: flex-start;
 }
 
 .article-card.compact.no-image .article-card-content,
 .article-card.compact:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-card-content {
+    flex: 0 0 auto !important;
     min-height: unset !important;
     max-height: none !important;
-    height: auto !important;
-    flex: none !important;
 }
 
 .article-card.compact.no-image .article-meta,
 .article-card.compact:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-meta {
-    margin-top: 8px !important;
-    justify-content: flex-start !important;
+    margin-top: 10px !important;
 }
 
-/* Remove title fixed height for no-image cards */
+/* Remove fixed heights on text elements for no-image cards */
 .article-card.no-image h3,
-.article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) h3 {
-    height: auto !important;
-    max-height: none !important;
-}
-
-/* Remove description fixed height for no-image cards */
+.article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) h3,
 .article-card.no-image p,
 .article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) p {
     height: auto !important;
@@ -3042,13 +3024,12 @@ html {
     padding-bottom: 14px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    flex: 1;
+    gap: 6px;
+    /* Let content fill remaining space in cards with images */
+    flex: 1 1 auto;
     position: relative;
     z-index: 1;
     background: transparent;
-    min-height: 200px;
-    max-height: 200px;
     overflow: hidden;
     /* Enforce order: category, title, description, meta (reporter) */
     order: 2;
