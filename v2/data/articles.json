@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "title": "Ethiopia Launches New Tech Hub in Addis Ababa",
+        "category": "Technology",
+        "excerpt": "A state-of-the-art facility aims to foster innovation and support startups across the Horn of Africa.",
+        "author": "Abebe Kebede",
+        "date": "2025-02-11T10:00:00Z",
+        "readTime": "5 min read",
+        "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
+        "featured": true
+    },
+    {
+        "id": 2,
+        "title": "Global Coffee Prices Surge: What It Means for Farmers",
+        "category": "Business",
+        "excerpt": "As demand outstrips supply, Ethiopian coffee growers look to capitalize on the market shift.",
+        "author": "Sara Tadesse",
+        "date": "2025-02-10T14:30:00Z",
+        "readTime": "4 min read",
+        "image": "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80",
+        "featured": false
+    },
+    {
+        "id": 3,
+        "title": "The Future of Renewable Energy in East Africa",
+        "category": "Environment",
+        "excerpt": "New hydroelectric and solar projects are set to transform the regional energy landscape.",
+        "author": "Dawit Haile",
+        "date": "2025-02-09T09:15:00Z",
+        "readTime": "7 min read",
+        "image": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80",
+        "featured": false
+    },
+    {
+        "id": 4,
+        "title": "Cultural Heritage: Preserving Lalibela for Future Generations",
+        "category": "Culture",
+        "excerpt": "Conservationists deploy new techniques to protect the rock-hewn churches.",
+        "author": "Hanna Yilma",
+        "date": "2025-02-08T16:00:00Z",
+        "readTime": "6 min read",
+        "image": "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?auto=format&fit=crop&w=800&q=80",
+        "featured": false
+    },
+    {
+        "id": 5,
+        "title": "Tech Startups to Watch in 2025",
+        "category": "Technology",
+        "excerpt": "From fintech to agritech, these five companies are shaking up the industry.",
+        "author": "Michael Chen",
+        "date": "2025-02-08T11:00:00Z",
+        "readTime": "3 min read",
+        "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+        "featured": false
+    }
+]

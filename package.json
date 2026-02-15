@@ -1,42 +1,20 @@
 {
   "name": "news-platform",
-  "version": "1.0.0",
-  "description": "Professional News Platform with MongoDB and Cloudinary",
+  "version": "2.0.0",
+  "description": "E1 News Platform - Professional News Website",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "mobile:sync": "npx cap sync",
-    "mobile:sync:ios": "npx cap sync ios",
-    "mobile:sync:android": "npx cap sync android",
-    "mobile:open:ios": "npx cap open ios",
-    "mobile:open:android": "npx cap open android",
-    "mobile:run:ios": "npx cap run ios",
-    "mobile:run:android": "npx cap run android",
-    "mobile:build:android": "cd android && ./gradlew assembleRelease",
-    "mobile:build:android:bundle": "cd android && ./gradlew bundleRelease"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "@capacitor/android": "^7.4.4",
-    "@capacitor/app": "^7.1.0",
-    "@capacitor/cli": "^7.4.4",
-    "@capacitor/core": "^7.4.4",
-    "@capacitor/haptics": "^7.0.2",
-    "@capacitor/ios": "^7.4.4",
-    "@capacitor/push-notifications": "^7.0.3",
-    "@capacitor/share": "^7.0.2",
-    "@capacitor/splash-screen": "^7.0.3",
-    "@capacitor/status-bar": "^7.0.3",
     "bcryptjs": "^2.4.3",
-    "cloudinary": "^1.41.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.0.3",
-    "multer": "^1.4.5-lts.1",
-    "multer-storage-cloudinary": "^4.0.0"
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
