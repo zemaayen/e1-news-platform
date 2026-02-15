@@ -30,12 +30,36 @@ router.post('/', authenticateToken, authorize('superadmin'), async (req, res) =>
 });
 
 // Update user (superadmin only)
-router.put('/:id', authenticateToken, authorize('superadmin'), (req, res) => {
-    const user = db.updateUser(parseInt(req.params.id), req.body);
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+router.put('/:id', authenticateToken, authorize('superadmin'), async (req, res) => {
+    try {
+        const updateData = { ...req.body };
+        
+        // Hash password if provided
+        if (updateData.password && updateData.password.trim() !== '') {
+            updateData.password = await bcrypt.hash(updateData.password, 10);
+        } else {
+            // Don't update password if empty
+            delete updateData.password;
+        }
+        
+        // Check if username is being changed and if it's already taken
+        if (updateData.username) {
+            const existingUser = db.getUserByUsername(updateData.username);
+            const currentUser = db.getUserById(parseInt(req.params.id));
+            if (existingUser && existingUser.id !== currentUser.id) {
+                return res.status(400).json({ error: 'Username already taken' });
+            }
+        }
+        
+        const user = db.updateUser(parseInt(req.params.id), updateData);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json({ message: 'User updated', user });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: 'Server error' });
     }
-    res.json({ message: 'User updated', user });
 });
 
 // Delete user (superadmin only)
