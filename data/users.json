@@ -2,7 +2,7 @@
   {
     "id": 1,
     "username": "superadmin",
-    "password": "$2a$10$3eNuiXBYIN/5n9k0mhEz8.k89gc6LZOpPyxRrvpEwR5zuxUWCK7kO",
+    "password": "$2a$10$jBgEhFXvzM3zlqSGYbGsUe/dEbIP0pR0pwTLHfkC569AIWJFbZj9O",
     "role": "superadmin",
     "email": "superadmin@newshub.com",
     "fullName": "Mebratu Gobeze",
