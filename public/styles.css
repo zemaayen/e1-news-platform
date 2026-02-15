@@ -2864,31 +2864,7 @@ html {
     z-index: 2;
 }
 
-/* Article media placeholder (when no image) */
-.article-media-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    padding: 40px 20px;
-    min-height: 250px;
-    color: #6c757d;
-}
-
-.article-media-placeholder svg {
-    margin-bottom: 15px;
-    opacity: 0.5;
-}
-
-.article-media-placeholder p {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.7;
-}
+/* Article media placeholder removed - cards without images show content only */
 
 /* Article media error */
 .article-media-error {
@@ -2904,13 +2880,24 @@ html {
     font-size: 14px;
 }
 
-/* Article card with no image */
+/* Article card with no image - content fills entire card */
 .article-card.no-image {
-    border-top: 4px solid var(--n12-red);
+    border-top: 3px solid var(--n12-red);
 }
 
 .article-card.no-image .article-card-content {
-    padding-top: 25px;
+    padding-top: 20px;
+    min-height: auto;
+    flex: 1;
+}
+
+/* When renderMedia returns empty, only content exists */
+.article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) {
+    border-top: 3px solid var(--n12-red);
+}
+
+.article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-card-content {
+    padding-top: 20px;
 }
 
 .article-card::before {
@@ -8426,8 +8413,7 @@ body[dir="rtl"] .ticker-content {
         margin-bottom: 0;
     }
     
-    .article-card img,
-    .article-media-placeholder {
+    .article-card img {
         height: 140px;
         min-height: 140px;
         max-height: 140px;
@@ -8488,8 +8474,7 @@ body[dir="rtl"] .ticker-content {
         max-height: 260px;
     }
     
-    .article-card img,
-    .article-media-placeholder {
+    .article-card img {
         height: 120px;
         min-height: 120px;
         max-height: 120px;

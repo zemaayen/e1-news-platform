@@ -599,18 +599,9 @@
             const mediaUrl = article.mediaUrl || article.imageUrl;
             const uniqueId = `media-${article.id}-${Date.now()}`;
             
-            // If no media URL, return placeholder
+            // If no media URL, return empty - card will adjust automatically
             if (!mediaUrl) {
-                return `
-                    <div class="article-media-placeholder">
-                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <circle cx="8.5" cy="8.5" r="1.5"/>
-                            <polyline points="21 15 16 10 5 21"/>
-                        </svg>
-                        <p>No image</p>
-                    </div>
-                `;
+                return '';
             }
             
             if (mediaType === 'video') {
@@ -660,8 +651,8 @@
                     </div>
                 `;
             } else {
-                // Default to image with error handling
-                return `<img src="${mediaUrl}" alt="${article.title}" onerror="this.onerror=null; this.src=''; this.style.display='none'; this.parentElement.classList.add('no-image');">`;
+                // Default to image with error handling - completely hide on error
+                return `<img src="${mediaUrl}" alt="${article.title}" onerror="this.onerror=null; this.remove(); this.parentElement.classList.add('no-image');">`;
             }
         }
 
