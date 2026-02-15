@@ -2880,24 +2880,70 @@ html {
     font-size: 14px;
 }
 
-/* Article card with no image - content fills entire card */
-.article-card.no-image {
-    border-top: 3px solid var(--n12-red);
-}
-
-.article-card.no-image .article-card-content {
-    padding-top: 20px;
-    min-height: auto;
-    flex: 1;
-}
-
-/* When renderMedia returns empty, only content exists */
+/* Article card with no image - completely remove all fixed dimensions */
+.article-card.no-image,
 .article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) {
     border-top: 3px solid var(--n12-red);
+    height: auto !important;
+    min-height: unset !important;
+    max-height: none !important;
+    aspect-ratio: unset !important;
 }
 
+.article-card.no-image .article-card-content,
 .article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-card-content {
-    padding-top: 20px;
+    padding-top: 18px;
+    padding-bottom: 16px;
+    min-height: unset !important;
+    max-height: none !important;
+    flex: unset;
+    height: auto;
+}
+
+/* Featured cards without images */
+.article-card.featured.no-image,
+.article-card.featured:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) {
+    height: auto !important;
+    min-height: unset !important;
+    max-height: none !important;
+    aspect-ratio: unset !important;
+}
+
+.article-card.featured.no-image .article-card-content,
+.article-card.featured:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-card-content {
+    min-height: unset !important;
+    max-height: none !important;
+    height: auto;
+}
+
+/* Compact cards without images */
+.article-card.compact.no-image,
+.article-card.compact:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) {
+    height: auto !important;
+    min-height: unset !important;
+    max-height: none !important;
+    aspect-ratio: unset !important;
+}
+
+.article-card.compact.no-image .article-card-content,
+.article-card.compact:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) .article-card-content {
+    min-height: unset !important;
+    max-height: none !important;
+    height: auto;
+}
+
+/* Remove title fixed height for no-image cards to allow natural flow */
+.article-card.no-image h3,
+.article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) h3 {
+    height: auto;
+    max-height: none;
+}
+
+/* Remove description fixed height for no-image cards */
+.article-card.no-image p,
+.article-card:not(:has(img)):not(:has(.article-media-container)):not(:has(.article-video)) p {
+    height: auto;
+    max-height: none;
 }
 
 .article-card::before {
