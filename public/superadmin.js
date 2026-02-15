@@ -338,13 +338,17 @@ document.getElementById('userForm').addEventListener('submit', async (e) => {
         userData.password = password;
     }
     
-    // Handle profile picture
+    // Handle profile picture - only update if changed
     const profilePictureMethod = document.querySelector('input[name="profilePictureMethod"]:checked').value;
     if (profilePictureMethod === 'url') {
         const urlInput = document.getElementById('profilePictureUrlInput').value;
-        userData.profilePicture = urlInput || null;
+        // Only include profilePicture if URL field has value or explicitly cleared
+        if (urlInput) {
+            userData.profilePicture = urlInput;
+        }
+        // If editing and URL is empty, don't include profilePicture (keeps existing)
     } else {
-        // Upload file first
+        // Upload file only if a file is selected
         const fileInput = document.getElementById('profilePictureFileInput');
         if (fileInput.files && fileInput.files[0]) {
             const formData = new FormData();
@@ -364,6 +368,7 @@ document.getElementById('userForm').addEventListener('submit', async (e) => {
                 return;
             }
         }
+        // If no file selected, don't include profilePicture (keeps existing)
     }
     
     let response;
@@ -375,6 +380,10 @@ document.getElementById('userForm').addEventListener('submit', async (e) => {
             body: JSON.stringify(userData)
         });
     } else {
+        // For new users, set profilePicture to null if not provided
+        if (!userData.profilePicture) {
+            userData.profilePicture = null;
+        }
         response = await fetch('/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
